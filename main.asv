@@ -173,7 +173,7 @@ function TabSellectCallback(~,~,SelectedTab)
 
 end
 
-%%   Select Image File Callback
+%%   Select Image Callback
 function SelectImageCallback(~, ~)
 
     dialog_pos_x=500;
@@ -183,6 +183,11 @@ function SelectImageCallback(~, ~)
     
     d = dialog('Position',[dialog_pos_x dialog_pos_y dialog_width dialog_height],'Name','Select image');
        
+    txt = uicontrol('Parent',d,...
+           'Style','text',...
+           'Position',[dialog_width/2-125 dialog_height-90 250 40],...
+           'String','Click the image you would like to use');
+    
     btn = uicontrol('Parent',d,...
            'Position',[dialog_width/2-35 20 70 35],...
            'String','Close',...
@@ -220,8 +225,9 @@ function SelectImageCallback(~, ~)
           delete(gcf);
       end
   
-    if
-    ShowImageInTab2(PicFilePath);
+    if PicFilePath~=""
+        ShowImageInTab2(PicFilePath);
+    end
 
 end
 
