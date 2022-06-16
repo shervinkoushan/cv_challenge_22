@@ -175,16 +175,42 @@ end
 
 %%   Select Image File Callback
 function SelectImageCallback(~, ~)
-     folder_path='lib/';
-     file_names = ['simple-room.png','uhren-turm.jpg',...
-                   'metro-station.png','oil-painting.png',...
-                   'sagrada_familia.png','shopping-mall.png'];
-     hlist = {handles.axes1, handles.axes2, handles.axes3, handles.axes4};
+
+    dialog_pos_x=500;
+    dialog_pos_y=200;
+    dialog_width=400;
+    dialog_height=400;
     
-     for i = 1 : 2
-        axes(hlist{i});
-        imshow(imread(folder_path+file_names(i)), []);     
+    d = dialog('Position',[dialog_pos_x dialog_pos_y dialog_width dialog_height],'Name','Select image');
+       
+    btn = uicontrol('Parent',d,...
+           'Position',[dialog_width/2-35 20 70 35],...
+           'String','Close',...
+           'Callback','delete(gcf)');
+       
+    
+     folder_path='lib/';
+     file_names = ["simple-room.png" "uhren-turm.jpg" ...
+                   "metro-station.png" "oil-painting.png"...
+                   "sagrada_familia.png" "shopping-mall.png"];
+  
+     for i = 1 : length(file_names)
+        filepath=append(folder_path,file_names(i));
+        image=imread(filepath);
+        image_button = uicontrol('Parent',d,...
+                        'Position',[100*i 100*i 50 50],...
+                        'CData',image,...
+                        'Callback',{@image_callback, filepath});
      end
+
+    PicFilePath="";
+    % Wait for d to close before running to completion
+    uiwait(d);
+    
+      function image_callback(~,~,filepath)
+          PicFilePath=filepath;
+          delete(gcf);
+      end
 end
 
 %%   Open Image File Callback

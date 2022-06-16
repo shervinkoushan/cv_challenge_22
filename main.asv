@@ -174,17 +174,69 @@ function TabSellectCallback(~,~,SelectedTab)
 end
 
 %%   Select Image File Callback
-    function SelectImageCallback(~,~)
+function SelectImageCallback(~, ~)
+
+    dialog_pos_x=500;
+    dialog_pos_y=200;
+    dialog_width=400;
+    dialog_height=400;
     
-     files = ['lib/simple-room.png','lib/uhren-turm.jpg'];
+    d = dialog('Position',[dialog_pos_x dialog_pos_y dialog_width dialog_height],'Name','Select image');
+       
+    btn = uicontrol('Parent',d,...
+           'Position',[dialog_width/2-35 20 70 35],...
+           'String','Close',...
+           'Callback','delete(gcf)');
+       
     
-     for i = 1 : 2
-    X = dicomread(fullfile('C:','Program Files','MATLAB','images',files(i)));
-    axes(hlist{i});
-    imshow(X, []);     
+     folder_path='lib/';
+     file_names = ["simple-room.png" "uhren-turm.jpg" ...
+                   "metro-station.png" "oil-painting.png"...
+                   "sagrada_familia.png" "shopping-mall.png"];
+  
+     for i = 1 : length(file_names)
+        filepath=append(folder_path,file_names(i));
+        image=imread(filepath);
+        image_button = uicontrol('Parent',d,...
+                        'Position',[300*i 300*i 300 300],...
+                        'CData',image,...
+                        'Callback',{@image_callback, filepath});
+     end
+
+     PicFilePath="";
+    % Wait for d to close before running to completion
+    uiwait(d);
+    
+      function image_callback(~,~,filepath)
+          PicFilePath=filepath;
+          delete(gcf);
+      end
+    %   Load the image
+        InitPicRGB = imread(PicFilePath);
+
+                TabHandles = guidata(gcf);
+    % Get handle of default panel content
+        h1 = TabHandles{size(TabHandles,1),1};
+        
+    %   Delete the previous panel content
+        if ishandle(h1)
+            delete(h1);             % Delete the default content
+        else
+            delete(hImageAxes);     % Delete the previous image
+        end
+        
+    %   Set the axes and display the image    
+        ImgOffset = 40;
+        hImageAxes = axes('Parent', TabHandles{2,1}, ...
+            'Units', 'pixels', ...
+            'Position', [ImgOffset ImgOffset ...
+                PanelWidth-2*ImgOffset PanelHeight-2*ImgOffset]);
+            
+        image(InitPicRGB,'Parent', hImageAxes);
+
+    %   Make Image Tab active
+        TabSellectCallback(0,0,2);
 end
-    
-    end
 
 %%   Open Image File Callback
     function OpenImageCallback(~,~)
