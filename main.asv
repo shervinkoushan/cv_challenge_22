@@ -198,12 +198,12 @@ function SelectImageCallback(~, ~)
         filepath=append(folder_path,file_names(i));
         image=imread(filepath);
         image_button = uicontrol('Parent',d,...
-                        'Position',[300*i 300*i 300 300],...
+                        'Position',[100*i 100*i 50 50],...
                         'CData',image,...
                         'Callback',{@image_callback, filepath});
      end
 
-     PicFilePath="";
+    PicFilePath="";
     % Wait for d to close before running to completion
     uiwait(d);
     
@@ -211,10 +211,44 @@ function SelectImageCallback(~, ~)
           PicFilePath=filepath;
           delete(gcf);
       end
+end
+
+%%   Open Image File Callback
+    function OpenImageCallback(~,~)
+    
+    %   Get TabHandles from guidata and set some varables
+        TabHandles = guidata(gcf);
+        NumberOfTabs = size(TabHandles,1)-2;
+        PanelWidth = TabHandles{NumberOfTabs+1,2};
+        PanelHeight = TabHandles{NumberOfTabs+1,3};
+
+    %   Two persistent varables are needed
+        persistent StartPicDirectory hImageAxes
+        
+    %   Initilize the StartPicDirectory if first time through
+        if isempty(StartPicDirectory)
+            StartPicDirectory = cd;
+        end
+    
+    %   Get the file name from the user
+        [PicNameWithTag, PicDirectory] = uigetfile({'*.jpg;*.tif;*.png','Image Files'},...
+            'Select an image file',StartPicDirectory);
+
+        if PicNameWithTag == 0,
+            %   If User canceles then display error message
+                errordlg('You should select an Image File');
+            return
+        end
+        
+    %   Set the default directory to the currently selected directory
+        StartPicDirectory = PicDirectory;
+
+    %   Build path to file
+        PicFilePath = strcat(PicDirectory,PicNameWithTag);
+            
     %   Load the image
         InitPicRGB = imread(PicFilePath);
 
-                TabHandles = guidata(gcf);
     % Get handle of default panel content
         h1 = TabHandles{size(TabHandles,1),1};
         
@@ -236,10 +270,11 @@ function SelectImageCallback(~, ~)
 
     %   Make Image Tab active
         TabSellectCallback(0,0,2);
-end
-
-%%   Open Image File Callback
-    function OpenImageCallback(~,~)
+    
+    end
+    
+    
+function (~,~)
     
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);

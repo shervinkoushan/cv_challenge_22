@@ -211,6 +211,9 @@ function SelectImageCallback(~, ~)
           PicFilePath=filepath;
           delete(gcf);
       end
+  
+    ShowImageInTab2(PicFilePath);
+
 end
 
 %%   Open Image File Callback
@@ -222,8 +225,7 @@ end
         PanelWidth = TabHandles{NumberOfTabs+1,2};
         PanelHeight = TabHandles{NumberOfTabs+1,3};
 
-    %   Two persistent varables are needed
-        persistent StartPicDirectory hImageAxes
+        persistent StartPicDirectory
         
     %   Initilize the StartPicDirectory if first time through
         if isempty(StartPicDirectory)
@@ -246,8 +248,23 @@ end
     %   Build path to file
         PicFilePath = strcat(PicDirectory,PicNameWithTag);
             
+        ShowImageInTab2(PicFilePath);
+    
+    end
+    
+    
+function ShowImageInTab2(file_path)
+    
+    %   Get TabHandles from guidata and set some varables
+        TabHandles = guidata(gcf);
+        NumberOfTabs = size(TabHandles,1)-2;
+        PanelWidth = TabHandles{NumberOfTabs+1,2};
+        PanelHeight = TabHandles{NumberOfTabs+1,3};
+
+        persistent hImageAxes
+            
     %   Load the image
-        InitPicRGB = imread(PicFilePath);
+        InitPicRGB = imread(file_path);
 
     % Get handle of default panel content
         h1 = TabHandles{size(TabHandles,1),1};
