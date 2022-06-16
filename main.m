@@ -178,8 +178,8 @@ function SelectImageCallback(~, ~)
 
     dialog_pos_x=500;
     dialog_pos_y=200;
-    dialog_width=400;
-    dialog_height=400;
+    dialog_width=500;
+    dialog_height=450;
     
     d = dialog('Position',[dialog_pos_x dialog_pos_y dialog_width dialog_height],'Name','Select image');
        
@@ -189,20 +189,24 @@ function SelectImageCallback(~, ~)
            'Callback','delete(gcf)');
        
     
+     button_width=100;
+     button_height=100;
      folder_path='lib/';
      file_names = ["simple-room.png" "oil-painting.png" "shopping-mall.png" ...
                    "uhren-turm.jpg" "metro-station.png" "sagrada_familia.png" ];
-  
+     pos_x=[50 200 350 50 200 350];
+     pos_y=[250 250 250 100 100 100];
+     
      for i = 1 : length(file_names)
         filepath=append(folder_path,file_names(i));
         image=imread(filepath);
         [r,c,~]=size(image); 
-        x=ceil(r/60); 
-        y=ceil(c/60); 
+        x=ceil(r/90); 
+        y=ceil(c/90); 
         g=image(1:x:end,1:y:end,:);
         g(g==255)=5.5*255;
         image_button = uicontrol('Parent',d,...
-                        'Position',[100*i 100*i 70 70],...
+                        'Position',[pos_x(i) pos_y(i) button_width button_height],...
                         'CData',g,...
                         'Callback',{@image_callback, filepath});
      end
@@ -216,7 +220,9 @@ function SelectImageCallback(~, ~)
           delete(gcf);
       end
   
-    ShowImageInTab2(PicFilePath);
+    if PicFilePath~=""
+        ShowImageInTab2(PicFilePath);
+    end
 
 end
 
