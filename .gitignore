@@ -1,2 +1,2 @@
 # Ignore all files they are not related to the project
-.asv
+*.asv
