@@ -1,7 +1,7 @@
 
 
 % Give the path of picture
-picture_folder = 'C:\Users\balam\GitHub\cv_challenge_22\lib\oil-painting.png';
+picture_folder = 'C:\Users\phili\GitHub\cv_challenge_22\lib\oil-painting.png';
 
 % Create grayscale double image
 img = im2double(rgb2gray(imread(picture_folder)));
