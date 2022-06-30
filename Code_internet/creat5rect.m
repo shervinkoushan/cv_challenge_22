@@ -14,6 +14,8 @@ function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = creat5rect(im_si
 %calculate the the 5 rectegulars: top_rec, bottom_rec, left_rec, right_rec,
 %back_rec
 [ymax,xmax,cdepth] = size(im);
+ymin = 0;
+xmin = 0;
 
 %back_rec
 back_rec = inner_rec;
@@ -21,13 +23,13 @@ back_rec = inner_rec;
 %Top rectangular 
 top_rec_x = [outer_rec(1,1), outer_rec(1,2), inner_rec(1,2), inner_rec(1,1)];
 top_rec_y = [outer_rec(2,1), outer_rec(2,2), inner_rec(2,2), inner_rec(2,1)];
-if(top_rec_y(1) ~= 0)
+if(top_rec_y(1) ~= ymin)
     top_rec_x(1) = line_intersection_x(van_point, inner_rec(:,1), ymin);
-    top_rec_y(1) = 0;
+    top_rec_y(1) = ymin;
 end
-if(top_rec_y(2) ~= 0)
+if(top_rec_y(2) ~= ymin)
     top_rec_x(2) = line_intersection_x(van_point, inner_rec(:,2), ymin);
-    top_rec_y(2) = 0;
+    top_rec_y(2) = ymin;
 end
 top_rec = [top_rec_x; top_rec_y];
 
@@ -47,13 +49,13 @@ bottom_rec = [bottom_rec_x; bottom_rec_y];
 %left rectangular
 left_rec_x = [outer_rec(1,1), inner_rec(1,1), inner_rec(1,4), outer_rec(1,4)];
 left_rec_y = [outer_rec(2,1), inner_rec(2,1), inner_rec(2,4), outer_rec(2,4)];
-if(left_rec_x(1) ~= 0)
+if(left_rec_x(1) ~= xmin)
     left_rec_y(1) = line_intersection_y(van_point, inner_rec(:,1), xmin);
-    left_rec_x(1) = 0;
+    left_rec_x(1) = xmin;
 end
-if(left_rec_x(4) ~= 0)
+if(left_rec_x(4) ~= xmin)
     left_rec_y(4) = line_intersection_y(van_point, inner_rec(:,4), xmin);
-    left_rec_x(4) = 0;
+    left_rec_x(4) = xmin;
 end
 left_rec = [left_rec_x; left_rec_y];
 
