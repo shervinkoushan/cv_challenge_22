@@ -17,11 +17,9 @@ figure(1);
 [vx,vy,irx,iry,orx,ory] = TIP_GUI(im);
 
 % Find the cube faces and compute the expended image
-[bim,bim_alpha,v,ceilrx,ceilry,floorrx,floorry,...
-    leftrx,leftry,rightrx,rightry,backrx,backry, ir, or] = ...
-    TIP_get5rects(im,vx,vy,irx,iry,orx,ory);
+[bim,bim_alpha, v, ir, or] = TIP_get5rects(im, vx, vy, irx, iry, orx, ory);
 
-[back, ceil, floor, left, right] = creat5rect(im, v, ir, or);
+[back, ceil, floor, left, right] = create5rect(im, v, ir, or);
 
 backrx = back(1,:);
 backry = back(2,:);
@@ -46,9 +44,6 @@ iry = ir(2);
 
 orx = or(1);
 ory = or(2);
-
-
-
 
 
 % display the expended image
