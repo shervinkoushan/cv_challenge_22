@@ -28,9 +28,9 @@ function ShowImageInTab2(file_path)
             'Position', [ImgOffset ImgOffset ...
                 PanelWidth-2*ImgOffset PanelHeight-2*ImgOffset]);
             
-        image(I,'Parent', hImageAxes);
+       % image(I,'Parent', hImageAxes);
         
-       % imshow(I);
+        imshow(I);
         hold on
         axis on
 
