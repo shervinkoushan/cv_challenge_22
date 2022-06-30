@@ -51,12 +51,9 @@ function ShowImageInTab2(file_path)
         
         %% get vanishing point
         [max_y, max_x, c] = size(I);
-        while(1)
-            [vx, vy, button] = ginput(1); 
+        [vx, vy, button] = ginput(1); 
 
-            if (isempty(button))
-              break;
-            end
+        if ~(isempty(button))
             vp_x = vx(1); vp_y=vy(1);
 
 
@@ -76,7 +73,8 @@ function ShowImageInTab2(file_path)
             plot([vp_x cpx(3)],[vp_y cpy(3)],'r');
             plot([vp_x cpx(4)],[vp_y cpy(4)],'r');
             hold off;
-        end 
+    end
+
 
 end
        
