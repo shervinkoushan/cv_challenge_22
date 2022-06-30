@@ -7,6 +7,7 @@ function ShowImageInTab2(file_path)
         PanelHeight = TabHandles{NumberOfTabs+1,3};
 
         persistent hImageAxes
+        persistent saveButton
             
     %   Load the image
         I = imread(file_path);
@@ -19,6 +20,7 @@ function ShowImageInTab2(file_path)
             delete(h1);             % Delete the default content
         else
             delete(hImageAxes);     % Delete the previous image
+            delete(saveButton);     % Delete the save button
         end
         
     %   Set the axes and display the image    
@@ -65,7 +67,7 @@ function ShowImageInTab2(file_path)
         set(info_text,'string',"Make adjustments and save when you are finished");
 
         %% Save button
-         uicontrol('Parent', TabHandles{2,1}, ...
+         saveButton=uicontrol('Parent', TabHandles{2,1}, ...
             'Units', 'pixels', ...
             'Position', [PanelWidth-140 ImgOffset 100 40], ...
             'String', 'Save', ...
