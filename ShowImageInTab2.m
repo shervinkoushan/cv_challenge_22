@@ -39,18 +39,22 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         %% Background rectangle
+        disp("Draw the inner rectangle");
         rectangle = drawrectangle('StripeColor','y');
         rectangle.Label = 'Inner rectangle';
-        rectangle_pos = customWait(rectangle)
+        addlistener(rectangle,'ROIMoved',@rectangle_moved);
         hold on
         
         %% Vanishing point
+        disp("Select the vanishing point");
         vanishing_point=drawpoint('Color','r');
         vanishing_point.Label = 'Vanishing point';
-        vp_pos=customWait(vanishing_point)
+                addlistener(vanishing_point,'ROIMoved',@rectangle_moved);
+                
+        disp("Make adjustments and save when you are finished");
 
-        [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos)
-        % backend function(inner_rect_x,inner_rect_y,van);
+        %[inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos)
+        % backend function(inner_rect_x,inner_rect_y,vp_pos);
 end
 
 % P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
@@ -63,29 +67,7 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
     y_array=[y_min y_min y_min+height y_min+height];
 end
        
-
-%% From https://de.mathworks.com/help/images/use-wait-function-after-drawing-roi-example.html
-function pos = customWait(hROI)
-
-% Listen for mouse clicks on the ROI
-l = addlistener(hROI,'ROIClicked',@clickCallback);
-
-% Block program execution
-uiwait;
-
-% Remove listener
-delete(l);
-
-% Return the current position
-pos = hROI.Position;
-
-end
-
-function clickCallback(~,evtData)
-   position = evtData.Source.Position
-
-if strcmp(evtData.SelectionType,'double')
-    uiresume;
-end
-
+function rectangle_moved(src,evt)
+            disp(['ROI moved current position: ' mat2str(evt.CurrentPosition)]);
+        
 end
