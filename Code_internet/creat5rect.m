@@ -19,8 +19,8 @@ function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = creat5rect(im_si
 back_rec = inner_rec;
 
 %Top rectangular 
-top_rec_x = [outer_rec(1,1), outer_rec(1,2), inner_rec(1,1), inner_rec(1,2)];
-top_rec_y = [outer_rec(2,1), outer_rec(2,2), inner_rec(2,1), inner_rec(2,2)];
+top_rec_x = [outer_rec(1,1), outer_rec(1,2), inner_rec(1,2), inner_rec(1,1)];
+top_rec_y = [outer_rec(2,1), outer_rec(2,2), inner_rec(2,2), inner_rec(2,1)];
 if(top_rec_y(1) ~= 0)
     top_rec_x(1) = line_intersection_x(van_point, inner_rec(:,1), ymin);
     top_rec_y(1) = 0;
@@ -39,34 +39,34 @@ if(bottom_rec_y(3) ~= ymax)
     bottom_rec_y(3) = ymax;
 end
 if(bottom_rec_y(4) ~= ymax)
-    bottom_rec_x(4) = line_intersection_x(van_point, inner_rec(:,2), ymax);
+    bottom_rec_x(4) = line_intersection_x(van_point, inner_rec(:,4), ymax);
     bottom_rec_y(4) = ymax;
 end
 bottom_rec = [bottom_rec_x; bottom_rec_y];
 
 %left rectangular
-left_rec_x = [outer_rec(1,1), inner_rec(1,1), inner_rec(1,3), outer_rec(1,3)];
-left_rec_y = [outer_rec(2,1), inner_rec(2,1), inner_rec(2,3), outer_rec(2,3)];
+left_rec_x = [outer_rec(1,1), inner_rec(1,1), inner_rec(1,4), outer_rec(1,4)];
+left_rec_y = [outer_rec(2,1), inner_rec(2,1), inner_rec(2,4), outer_rec(2,4)];
 if(left_rec_x(1) ~= 0)
     left_rec_y(1) = line_intersection_y(van_point, inner_rec(:,1), xmin);
     left_rec_x(1) = 0;
 end
-if(left_rec_x(3) ~= 0)
-    left_rec_y(3) = line_intersection_y(van_point, inner_rec(:,3), xmin);
-    left_rec_x(3) = 0;
+if(left_rec_x(4) ~= 0)
+    left_rec_y(4) = line_intersection_y(van_point, inner_rec(:,4), xmin);
+    left_rec_x(4) = 0;
 end
 left_rec = [left_rec_x; left_rec_y];
 
 
 %right rectangular
-right_rec_x = [inner_rec(1,1), outer_rec(1,2), inner_rec(1,4), outer_rec(1,4)];
-right_rec_y = [inner_rec(2,1), outer_rec(2,2), inner_rec(2,4), outer_rec(2,4)];
+right_rec_x = [inner_rec(1,1), outer_rec(1,2), inner_rec(1,3), outer_rec(1,3)];
+right_rec_y = [inner_rec(2,1), outer_rec(2,2), inner_rec(2,3), outer_rec(2,3)];
 if(right_rec_x(2) ~= xmax)
     right_rec_y = line_intersection_y(van_point, inner_rec(:, 2), xmax);
     right_rec_x = xmax;
 end
-if(right_rec_x(4) ~= xmax)
-    right_rec_y(4) = line_intersection_y(van_point, inner_rec(:,4), xmax);
+if(right_rec_x(3) ~= xmax)
+    right_rec_y(3) = line_intersection_y(van_point, inner_rec(:,3), xmax);
     right_rec_x = xmax;
 end
 right_rec = [right_rec_x; right_rec_y];
