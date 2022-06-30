@@ -47,6 +47,8 @@ while 1,
 
   orx = round(or_xy(1,:));
   ory = round(or_xy(2,:));
+  
+  
 
   % find where the line from VP thru inner rectangle hits the edge of image
 %   [ox,oy] = find_corner(vx,vy,irx(1),iry(1),0,0);

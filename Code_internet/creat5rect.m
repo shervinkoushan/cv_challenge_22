@@ -6,7 +6,7 @@
 %With this 9 points the 5 rectuangulars are calculated 
 %Starting point of the rectangular is always top left corner 
 
-function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = creat5rect(im_size, van_point, inner_rec, outer_rec)
+function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = creat5rect(im, van_point, inner_rec, outer_rec)
 %CREAT5RECT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -61,15 +61,15 @@ left_rec = [left_rec_x; left_rec_y];
 
 
 %right rectangular
-right_rec_x = [inner_rec(1,1), outer_rec(1,2), inner_rec(1,3), outer_rec(1,3)];
-right_rec_y = [inner_rec(2,1), outer_rec(2,2), inner_rec(2,3), outer_rec(2,3)];
+right_rec_x = [inner_rec(1,1), outer_rec(1,2), outer_rec(1,3), inner_rec(1,3)];
+right_rec_y = [inner_rec(2,1), outer_rec(2,2), outer_rec(2,3), inner_rec(2,3)];
 if(right_rec_x(2) ~= xmax)
-    right_rec_y = line_intersection_y(van_point, inner_rec(:, 2), xmax);
-    right_rec_x = xmax;
+    right_rec_y(2) = line_intersection_y(van_point, inner_rec(:, 2), xmax);
+    right_rec_x(2) = xmax;
 end
 if(right_rec_x(3) ~= xmax)
     right_rec_y(3) = line_intersection_y(van_point, inner_rec(:,3), xmax);
-    right_rec_x = xmax;
+    right_rec_x(3) = xmax;
 end
 right_rec = [right_rec_x; right_rec_y];
 

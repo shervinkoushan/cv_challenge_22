@@ -9,8 +9,8 @@
 % encoded clockwise (upper-left, upper-right, lower-right,lower-left).
 % The new (bigger) image and its alhpa mask as well as the new 
 % vanishing point (vx,vy) are also returned.
-function [big_im,big_im_alpha,vx,vy,ceilrx,ceilry,floorrx,floorry,...
-    leftrx,leftry,rightrx,rightry,backrx,backry] = ...
+function [big_im,big_im_alpha,v,ceilrx,ceilry,floorrx,floorry,...
+    leftrx,leftry,rightrx,rightry,backrx,backry, ir, or] = ...
     TIP_get5rects(im,vx,vy,irx,iry,orx,ory);
 
 % expand the image so that each "face" of the box is a proper rectangle
@@ -28,10 +28,13 @@ big_im_alpha(tmargin+1:end-bmargin,lmargin+1:end-rmargin) = 1;
 % update all variables for the new image
 vx = vx + lmargin;
 vy = vy + tmargin;
+v = [vx; vy];
 irx = irx + lmargin;
 iry = iry + tmargin;
+ir = [irx; iry];
 orx = orx + lmargin;
 ory = ory + tmargin;
+or = [orx; ory];
 
 
 %%%%%%%%%%%% define the 5 rectangles
