@@ -49,7 +49,18 @@ function ShowImageInTab2(file_path)
         vanishing_point.Label = 'Vanishing point';
         vp_pos=customWait(vanishing_point)
 
+        [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos)
+        % backend function(inner_rect_x,inner_rect_y,van);
+end
 
+% P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
+function [x_array, y_array] = x_y_from_rect_pos(position)
+    x_min=position(1);
+    y_min=position(2);
+    width=position(3);
+    height=position(4);
+    x_array=[x_min x_min+width x_min+width x_min];
+    y_array=[y_min y_min y_min+height y_min+height];
 end
        
 
