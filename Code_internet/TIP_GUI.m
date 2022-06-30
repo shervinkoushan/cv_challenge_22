@@ -14,6 +14,8 @@ function [vx, vy, irx, iry, orx, ory] = TIP_GUI(im);
 
 [ymax,xmax,cdepth] = size(im);
 
+im_size = size(im);
+
 imshow(im);
 
 % get the upper left and lower right corner of the inner rectangle
@@ -38,17 +40,25 @@ while 1,
   end;
   vx = vxnew; vy=vynew;
   
+  ir_xy = [irx; iry];
+  v_xy = [vx, vy];
+
+  or_xy = outer_rectangle(v_xy, ir_xy, im_size);
+
+  orx = round(or_xy(1,:));
+  ory = round(or_xy(2,:));
+
   % find where the line from VP thru inner rectangle hits the edge of image
-  [ox,oy] = find_corner(vx,vy,irx(1),iry(1),0,0);
-  orx(1) = ox;  ory(1) = oy;
-  [ox,oy] = find_corner(vx,vy,irx(2),iry(2),xmax,0);
-  orx(2) = ox;  ory(2) = oy;
-  [ox,oy] = find_corner(vx,vy,irx(3),iry(3),xmax,ymax);
-  orx(3) = ox;  ory(3) = oy;
-  [ox,oy] = find_corner(vx,vy,irx(4),iry(4),0,ymax);
-  orx(4) = ox;  ory(4) = oy;
-  orx = round(orx);
-  ory = round(ory);
+%   [ox,oy] = find_corner(vx,vy,irx(1),iry(1),0,0);
+%   orx(1) = ox;  ory(1) = oy;
+%   [ox,oy] = find_corner(vx,vy,irx(2),iry(2),xmax,0);
+%   orx(2) = ox;  ory(2) = oy;
+%   [ox,oy] = find_corner(vx,vy,irx(3),iry(3),xmax,ymax);
+%   orx(3) = ox;  ory(3) = oy;
+%   [ox,oy] = find_corner(vx,vy,irx(4),iry(4),0,ymax);
+%   orx(4) = ox;  ory(4) = oy;
+%   orx = round(orx);
+%   ory = round(ory);
  
   % draw everything
   imshow(im);

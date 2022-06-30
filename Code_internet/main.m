@@ -6,7 +6,11 @@
 % the 5 rectangles.  
 
 % read in sample inage
-im = imread('uhren-turm.jpg');
+im = imread('oil-painting.png');
+
+[x_max, y_max, depth] = size(im);
+
+
 
 % Run the GUI in Figure 1
 figure(1);
@@ -39,6 +43,9 @@ figure(3);
 planex = [0 0 0; 0 0 0];
 planey = [-1 0 1; -1 0 1];
 planez = [1 1 1; 0 0 0];
+
+
+
 % create the surface and texturemap it with a given image
 warp(planex,planey,planez,bim);
 % some alpha-channel magic to make things transparent
@@ -49,7 +56,9 @@ alpha('texture');
 axis equal;  % make X,Y,Z dimentions be equal
 axis vis3d;  % freeze the scale for better rotations
 axis off;    % turn off the stupid tick marks
-camproj('perspective');  % make it a perspective projection
+camproj('perspective');
+
+% make it a perspective projection
 % use the "rotate 3D" button on the figure or do "View->Camera Toolbar"
 % to rotate the figure
 % or use functions campos and camtarget to set camera location 
