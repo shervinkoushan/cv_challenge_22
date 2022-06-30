@@ -15,7 +15,7 @@ function main
         MaxMonitorY = SC(4);
         
  %   Set the figure window size values
-        MainFigScale = .7;          % Change this value to adjust the figure size
+        MainFigScale = 0.8;          % Change this value to adjust the figure size
         MaxWindowX = round(MaxMonitorX*MainFigScale);
         MaxWindowY = round(MaxMonitorY*MainFigScale);
         XBorder = (MaxMonitorX-MaxWindowX)/2;

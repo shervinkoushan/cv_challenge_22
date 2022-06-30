@@ -36,6 +36,17 @@ function ShowImageInTab2(file_path)
 
     %   Make Image Tab active
         TabSelectCallback(0,0,2);
-    
+        
+        [rx, ry] = ginput(2) %origin is at top left corner (rx has x,y coordinates of the point)
+        plot(rx,ry,'*')
+
+        %% draw the rectangle
+
+        hold on;
+        irx = round([rx(1) rx(2) rx(2) rx(1) rx(1)]);
+        iry =  round([ry(1) ry(1) ry(2) ry(2) ry(1)]);
+        plot(irx,iry,'b'); 
+        hold off;
+
 end
        
