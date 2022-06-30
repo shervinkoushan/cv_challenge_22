@@ -40,11 +40,13 @@ function ShowImageInTab2(file_path)
         
         %% Background rectangle
         rectangle = drawrectangle('StripeColor','y');
+        rectangle.Label = 'Inner rectangle';
         rectangle_pos = customWait(rectangle)
         hold on
         
         %% Vanishing point
-        vanishing_point=drawpoint();
+        vanishing_point=drawpoint('Color','r');
+        vanishing_point.Label = 'Vanishing point';
         vp_pos=customWait(vanishing_point)
 
 
