@@ -1,6 +1,6 @@
 %read the 2D image
 close all;
-I=imread('./computer vision/lib/simple-room.png');
+I=imread('./lib/simple-room.png');
 %I = imresize(imread('bbb.jpg'), 0.5);   
 imshow(I);
 hold on
@@ -35,14 +35,7 @@ while(1)
     [cpx(3), cpy(3)] = compute_corner(vp_x, vp_y, irx(3), iry(3), max_x, max_y); 
     [cpx(4), cpy(4)] = compute_corner(vp_x, vp_y, irx(4), iry(4), 1, max_y); 
     
-    % get the point on edge of image
-    cpOutx = [0 0 0 0];
-    cpOuty = [0 0 0 0];
-    [cpOutx(1), cpOuty(1)] = compute_outCorner(vp_x, vp_y, irx(1), iry(1), 1, 1); 
-    [cpOutx(2), cpOuty(2)] = compute_outCorner(vp_x, vp_y, irx(2), iry(2), max_x, 1); 
-    [cpOutx(3), cpOuty(3)] = compute_outCorner(vp_x, vp_y, irx(3), iry(3), max_x, max_y); 
-    [cpOutx(4), cpOuty(4)] = compute_outCorner(vp_x, vp_y, irx(4), iry(4), 1, max_y); 
-    
+   
     imshow(I);
     hold on;
     plot(irx,iry,'b'); 
