@@ -36,9 +36,13 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         
-        %% User selection
+        %% Global variables
         global rectangle_pos;
         global vp_pos;
+        global image_size;
+        
+        [dim_x,dim_y,~]=size(I);
+        image_size=[dim_x dim_y];
         
        info_text= uicontrol('Style', 'text',...
         'Position', [ PanelWidth-170 300 150 100 ],...
@@ -101,10 +105,11 @@ function vp_moved(~,evt)
     vp_pos=evt.CurrentPosition; 
 end
 
-function save(~, ~,rec)
+function save(~, ~)
       global rectangle_pos;
       global vp_pos;
-      vp_pos
-     [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos)
-        % backend function(inner_rect_x,inner_rect_y,vp_pos);
+      global image_size;
+      % TODO round values
+     [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
+      backend(vp_pos,[inner_rect_x;inner_rect_y],image_size);
 end
