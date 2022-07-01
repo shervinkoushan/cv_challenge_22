@@ -106,10 +106,12 @@ function vp_moved(~,evt)
 end
 
 function save(~, ~)
-      global rectangle_pos;
-      global vp_pos;
-      global image_size;
-      % TODO round values
-     [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
-      backend(vp_pos,[inner_rect_x;inner_rect_y],image_size);
+  global rectangle_pos;
+  global vp_pos;
+  global image_size;
+  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
+  vanishing_point=round(vp_pos);
+  inner_rect=round([inner_rect_x;inner_rect_y]);
+  im_size=round(image_size);
+  backend(vanishing_point,inner_rect,im_size);
 end
