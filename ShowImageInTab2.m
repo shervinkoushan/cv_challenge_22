@@ -1,4 +1,11 @@
 function ShowImageInTab2(file_path)
+
+        %% Global variables
+        global inner_rectangle;
+        global vanishing_point;
+        global rect_pos;
+        global vp_pos;
+        global image_size;
     
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);
@@ -36,9 +43,8 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         
-        %% User selection
-        global rectangle_pos;
-        global vp_pos;
+        [dim_x,dim_y,~]=size(I);
+        image_size=[dim_x dim_y];
         
        info_text= uicontrol('Style', 'text',...
         'Position', [ PanelWidth-170 300 150 100 ],...
@@ -51,16 +57,17 @@ function ShowImageInTab2(file_path)
         'FontSize', 11);
         
         %% Background rectangle
-        rectangle = drawrectangle('StripeColor','y');
-        rectangle_pos=rectangle.Position;
-        rectangle.Label = 'Inner rectangle';
-        addlistener(rectangle,'ROIMoved',@rectangle_moved);
+        inner_rectangle = drawrectangle('StripeColor','y');
+        rect_pos=inner_rectangle.Position;
+        inner_rectangle.Label = 'Inner rectangle';
+        addlistener(inner_rectangle,'ROIMoved',@rectangle_moved);
         hold on
         
         %% Vanishing point
         set(info_text,'string',"Select the vanishing point");
-        vanishing_point=drawpoint('Color','r');
+        vanishing_point=drawpoint('Color','r','DrawingArea',smaller_rect(rect_pos));
         vp_pos=vanishing_point.Position;
+        update_polygons();
         vanishing_point.Label = 'Vanishing point';
         addlistener(vanishing_point,'ROIMoved',@vp_moved);
                 
@@ -81,6 +88,11 @@ function ShowImageInTab2(file_path)
        
 end
 
+% Decrease rect size by 1 pixel in each direction
+function constraint = smaller_rect(rect)
+    constraint = [rect(1)+1 rect(2)+1 rect(3)-2 rect(4)-2];
+end
+
 % P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
 function [x_array, y_array] = x_y_from_rect_pos(position)
     x_min=position(1);
@@ -92,19 +104,60 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
 end
        
 function rectangle_moved(~,evt)
-    global rectangle_pos;
-    rectangle_pos=evt.CurrentPosition;  
+    global rect_pos;
+    global vp_pos;
+    global vanishing_point;
+    global inner_rectangle;
+    rect_pos=evt.CurrentPosition; 
+    % The vanishing point must stay inside the inner rectangle
+    set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
+    if ~(inROI(inner_rectangle,vp_pos(1),vp_pos(2)))
+        % Move vanishing point to the middle of the rectangle if it
+        % is outside
+        vp_pos=[rect_pos(1)+rect_pos(3)/2 rect_pos(2)+rect_pos(4)/2];
+        set(vanishing_point, 'Position', vp_pos);
+    end
+    update_polygons();
 end
 
 function vp_moved(~,evt)
     global vp_pos;
-    vp_pos=evt.CurrentPosition; 
+    vp_pos=evt.CurrentPosition;
+    update_polygons();
 end
 
-function save(~, ~,rec)
-      global rectangle_pos;
-      global vp_pos;
-      vp_pos
-     [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos)
-        % backend function(inner_rect_x,inner_rect_y,vp_pos);
+function save(~, ~)
+end
+
+function update_polygons()
+  persistent top_poly;
+  persistent bottom_poly;
+  persistent left_poly;
+  persistent right_poly;
+
+  % Delete previous polygon plots
+  delete(top_poly);
+  delete(bottom_poly);
+  delete(left_poly);
+  delete(right_poly);
+  
+  global rect_pos;
+  global vp_pos;
+  global image_size;
+  
+  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
+  vanishing_point=round(vp_pos);
+  inner_rect=round([inner_rect_x;inner_rect_y]);
+  im_size=round(image_size);
+  [~, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  
+  top_poly=plot_polygon(top_rec,'yellow');
+  bottom_poly=plot_polygon(bottom_rec,'magenta');
+  left_poly=plot_polygon(left_rec,'cyan');
+  right_poly=plot_polygon(right_rec,'green');
+end
+
+function handle = plot_polygon(rectangle, color)
+  polygon=polyshape(rectangle(1,:),rectangle(2,:));
+  handle= plot(polygon,'FaceColor',color);
 end
