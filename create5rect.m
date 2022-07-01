@@ -6,14 +6,16 @@
 %With this 9 points the 5 rectuangulars are calculated 
 %Starting point of the rectangular is always top left corner 
 
-function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = creat5rect(im, van_point, inner_rec, outer_rec)
+function [back_rec, top_rec, bottom_rec, left_rec, right_rec] = create5rect(im_size, van_point, inner_rec, outer_rec)
 %CREAT5RECT Summary of this function goes here
 %   Detailed explanation goes here
 
 
 %calculate the the 5 rectegulars: top_rec, bottom_rec, left_rec, right_rec,
 %back_rec
-[ymax,xmax,cdepth] = size(im);
+%[ymax,xmax,cdepth] = size(im_size);
+ymax = im_size(1);
+xmax = im_size(2);
 ymin = 0;
 xmin = 0;
 

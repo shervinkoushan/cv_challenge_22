@@ -16,37 +16,42 @@ im = imread('oil-painting.png');
 figure(1);
 [vx,vy,irx,iry,orx,ory] = TIP_GUI(im);
 
+
+v = [vx; vy];
+ir = [irx; iry];
+or = [orx; ory];
+
 % Find the cube faces and compute the expended image
 [bim,bim_alpha,v,ceilrx,ceilry,floorrx,floorry,...
     leftrx,leftry,rightrx,rightry,backrx,backry, ir, or] = ...
     TIP_get5rects(im,vx,vy,irx,iry,orx,ory);
 
-[back, ceil, floor, left, right] = creat5rect(im, v, ir, or);
-
-backrx = back(1,:);
-backry = back(2,:);
-
-ceilrx = ceil(1,:);
-ceilry = ceil(2,:);
-
-floorrx = floor(1,:);
-floorry = floor(2,:);
-
-leftrx = left(1,:);
-leftry = left(2,:);
-
-rightrx = right(1,:);
-rightry = right(2,:);
-
-vx = v(1);
-vy = v(2);
-
-irx = ir(1);
-iry = ir(2);
-
-orx = or(1);
-ory = or(2);
-
+% [back_test, ceil, floor, left, right] = creat5rect(im, v, ir, or);
+% 
+% backrx = back_test(1,:);
+% backry = back_test(2,:);
+% 
+% ceilrx = ceil(1,:);
+% ceilry = ceil(2,:);
+% 
+% floorrx = floor(1,:);
+% floorry = floor(2,:);
+% 
+% leftrx = left(1,:);
+% leftry = left(2,:);
+% 
+% rightrx = right(1,:);
+% rightry = right(2,:);
+% 
+% vx = v(1);
+% vy = v(2);
+% 
+% irx = ir(1);
+% iry = ir(2);
+% 
+% orx = or(1);
+% ory = or(2);
+% 
 
 
 
