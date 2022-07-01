@@ -1,4 +1,9 @@
 function ShowImageInTab2(file_path)
+
+        %% Global variables
+        global rectangle_pos;
+        global vp_pos;
+        global image_size;
     
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);
@@ -36,12 +41,9 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         
-        %% Global variables
-        global rectangle_pos;
-        global vp_pos;
-        global image_size;
-        
-        [dim_x,dim_y,~]=size(I)
+
+        [dim_x,dim_y,~]=size(I);
+        image_size=[dim_x dim_y];
         
        info_text= uicontrol('Style', 'text',...
         'Position', [ PanelWidth-170 300 150 100 ],...
@@ -66,6 +68,7 @@ function ShowImageInTab2(file_path)
         vp_pos=vanishing_point.Position;
         vanishing_point.Label = 'Vanishing point';
         addlistener(vanishing_point,'ROIMoved',@vp_moved);
+        hold on;
                 
         set(info_text,'string',"Make adjustments and save when you are finished");
 
@@ -105,10 +108,26 @@ function vp_moved(~,evt)
 end
 
 function save(~, ~)
-      global rectangle_pos;
-      global vp_pos;
-      global image_size;
-      % TODO round values
-     [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
-      backend(vp_pos,[inner_rect_x;inner_rect_y],image_size);
+  global rectangle_pos;
+  global vp_pos;
+  global image_size;
+  
+  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
+  vanishing_point=round(vp_pos);
+  inner_rect=round([inner_rect_x;inner_rect_y]);
+  im_size=round(image_size);
+  [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  
+  pgon=polyshape(right_rec(1,:),right_rec(2,:))
+  plot(pgon)
+%   RGB = insertShape(I,'Polygon',rec_to_poly(left_rec),'LineWidth',5);
+%   imshow(RGB);
+
+end
+
+function polygon=rec_to_poly(rec)
+polygon=[rec(1,1) rec(2,1);
+         rec(1,2) rec(2,2);
+         rec(1,3) rec(2,4);
+         rec(1,4) rec(2,4);];
 end
