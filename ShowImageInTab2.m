@@ -113,5 +113,17 @@ function save(~, ~)
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);
-  backend(vanishing_point,inner_rect,im_size);
+  [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  
+  
+    %Expected ouput from create5rect:
+    %Result back_rec = [360,970,970,360,360;197,197,661,661,197]
+    %Result top_rec = [78,1100,970,360;0,0,197,197]
+    %Result Bottom = [360,970,1158,-48;661,661,829,829]
+    %Result Left = [0,360,360,0;-54,197,661,809]
+    %Result right = [970,1152,1152,970;197,-80,824,661]
+
+    %Creat new plot like example image "Show the five planes.png"
+    %Which creats the big image with shifted cordinates and shows the five
+    %planes
 end
