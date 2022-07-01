@@ -108,12 +108,12 @@ function rectangle_moved(~,evt)
     global vp_pos;
     global vanishing_point;
     global inner_rectangle;
-    rect_pos=evt.CurrentPosition;  
+    rect_pos=evt.CurrentPosition; 
+    % The vanishing point must stay inside the inner rectangle
     set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
     if ~(inROI(inner_rectangle,vp_pos(1),vp_pos(2)))
-        % Move vanishing point to the middle of the rectangle if the
-        % user moves the rectangle so that the vanishing point is
-        % outside
+        % Move vanishing point to the middle of the rectangle if it
+        % is outside
         vp_pos=[rect_pos(1)+rect_pos(3)/2 rect_pos(2)+rect_pos(4)/2];
         set(vanishing_point, 'Position', vp_pos);
     end
@@ -125,10 +125,6 @@ function vp_moved(~,evt)
     vp_pos=evt.CurrentPosition;
     update_polygons();
 end
-
-% function inside = vp_inside_rect()
-%     inside=
-% end
 
 function save(~, ~)
 end
@@ -161,7 +157,7 @@ function update_polygons()
   right_poly=plot_polygon(right_rec,'green');
 end
 
-function handle= plot_polygon(rectangle, color)
+function handle = plot_polygon(rectangle, color)
   polygon=polyshape(rectangle(1,:),rectangle(2,:));
   handle= plot(polygon,'FaceColor',color);
 end
