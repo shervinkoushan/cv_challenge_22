@@ -41,7 +41,6 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         
-
         [dim_x,dim_y,~]=size(I);
         image_size=[dim_x dim_y];
         
@@ -68,7 +67,6 @@ function ShowImageInTab2(file_path)
         vp_pos=vanishing_point.Position;
         vanishing_point.Label = 'Vanishing point';
         addlistener(vanishing_point,'ROIMoved',@vp_moved);
-        hold on;
                 
         set(info_text,'string',"Make adjustments and save when you are finished");
 
@@ -118,16 +116,14 @@ function save(~, ~)
   im_size=round(image_size);
   [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
   
-  pgon=polyshape(right_rec(1,:),right_rec(2,:))
-  plot(pgon)
-%   RGB = insertShape(I,'Polygon',rec_to_poly(left_rec),'LineWidth',5);
-%   imshow(RGB);
+  plot_polygon(top_rec,'yellow');
+  plot_polygon(bottom_rex,'magenta');
+  plot_polygon(left_rec,'cyan');
+  plot_polygon(right_rec,'green');
+
+  pgon_right=polyshape(right_rec(1,:),right_rec(2,:));
+  plot(pgon_right)
 
 end
 
-function polygon=rec_to_poly(rec)
-polygon=[rec(1,1) rec(2,1);
-         rec(1,2) rec(2,2);
-         rec(1,3) rec(2,4);
-         rec(1,4) rec(2,4);];
-end
+function plot_polygon(

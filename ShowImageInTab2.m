@@ -41,7 +41,6 @@ function ShowImageInTab2(file_path)
         TabSelectCallback(0,0,2);
         
         
-
         [dim_x,dim_y,~]=size(I);
         image_size=[dim_x dim_y];
         
@@ -117,7 +116,13 @@ function save(~, ~)
   im_size=round(image_size);
   [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
   
-  pgon=polyshape(right_rec(1,:),right_rec(2,:));
-  plot(pgon)
+  plot_polygon(top_rec,'yellow');
+  plot_polygon(bottom_rec,'magenta');
+  plot_polygon(left_rec,'cyan');
+  plot_polygon(right_rec,'green');
+end
 
+function plot_polygon(rectangle, color)
+  polygon=polyshape(rectangle(1,:),rectangle(2,:));
+  plot(polygon,'FaceColor',color);
 end
