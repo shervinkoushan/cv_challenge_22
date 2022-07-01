@@ -65,6 +65,7 @@ function ShowImageInTab2(file_path)
         set(info_text,'string',"Select the vanishing point");
         vanishing_point=drawpoint('Color','r');
         vp_pos=vanishing_point.Position;
+        update_polygons();
         vanishing_point.Label = 'Vanishing point';
         addlistener(vanishing_point,'ROIMoved',@vp_moved);
                 
@@ -98,14 +99,30 @@ end
 function rectangle_moved(~,evt)
     global rectangle_pos;
     rectangle_pos=evt.CurrentPosition;  
+    update_polygons();
 end
 
 function vp_moved(~,evt)
     global vp_pos;
     vp_pos=evt.CurrentPosition; 
+    update_polygons();
 end
 
 function save(~, ~)
+end
+
+function update_polygons()
+  persistent top_poly;
+  persistent bottom_poly;
+  persistent left_poly;
+  persistent right_poly;
+
+  % Delete previous polygon plots
+  delete(top_poly);
+  delete(bottom_poly);
+  delete(left_poly);
+  delete(right_poly);
+  
   global rectangle_pos;
   global vp_pos;
   global image_size;
@@ -114,15 +131,15 @@ function save(~, ~)
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);
-  [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  [~, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
   
-  plot_polygon(top_rec,'yellow');
-  plot_polygon(bottom_rec,'magenta');
-  plot_polygon(left_rec,'cyan');
-  plot_polygon(right_rec,'green');
+  top_poly=plot_polygon(top_rec,'yellow');
+  bottom_poly=plot_polygon(bottom_rec,'magenta');
+  left_poly=plot_polygon(left_rec,'cyan');
+  right_poly=plot_polygon(right_rec,'green');
 end
 
-function plot_polygon(rectangle, color)
+function handle= plot_polygon(rectangle, color)
   polygon=polyshape(rectangle(1,:),rectangle(2,:));
-  plot(polygon,'FaceColor',color);
+  handle= plot(polygon,'FaceColor',color);
 end
