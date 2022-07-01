@@ -1,7 +1,9 @@
 function ShowImageInTab2(file_path)
 
         %% Global variables
-        global rectangle_pos;
+        global inner_rectangle;
+        global vanishing_point;
+        global rect_pos;
         global vp_pos;
         global image_size;
     
@@ -55,10 +57,10 @@ function ShowImageInTab2(file_path)
         'FontSize', 11);
         
         %% Background rectangle
-        rectangle = drawrectangle('StripeColor','y');
-        rectangle_pos=rectangle.Position;
-        rectangle.Label = 'Inner rectangle';
-        addlistener(rectangle,'ROIMoved',@rectangle_moved);
+        inner_rectangle = drawrectangle('StripeColor','y');
+        rect_pos=inner_rectangle.Position;
+        inner_rectangle.Label = 'Inner rectangle';
+        addlistener(inner_rectangle,'ROIMoved',@rectangle_moved);
         hold on
         
         %% Vanishing point
@@ -97,15 +99,22 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
 end
        
 function rectangle_moved(~,evt)
-    global rectangle_pos;
-    rectangle_pos=evt.CurrentPosition;  
+    global rect_pos;
+    rect_pos=evt.CurrentPosition;  
     update_polygons();
 end
 
 function vp_moved(~,evt)
     global vp_pos;
-    vp_pos=evt.CurrentPosition; 
-    update_polygons();
+    global inner_rectangle;
+    global vanishing_point;
+    new_pos=evt.CurrentPosition;
+    if (inROI(inner_rectangle,new_pos(1),new_pos(2)))
+        vp_pos=evt.CurrentPosition; 
+        update_polygons();
+    else
+       set(vanishing_point, 'Position', vp_pos);
+    end
 end
 
 function save(~, ~)
@@ -123,11 +132,11 @@ function update_polygons()
   delete(left_poly);
   delete(right_poly);
   
-  global rectangle_pos;
+  global rect_pos;
   global vp_pos;
   global image_size;
   
-  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
+  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);
