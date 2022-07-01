@@ -2,7 +2,8 @@ function ShowImageInTab2(file_path)
 
         %% Global variables
         global inner_rectangle;
-        global inner_rect_pos;
+        global vanishing_point;
+        global rect_pos;
         global vp_pos;
         global image_size;
     
@@ -57,14 +58,14 @@ function ShowImageInTab2(file_path)
         
         %% Background rectangle
         inner_rectangle = drawrectangle('StripeColor','y');
-        rectangle_pos=inner_rectangle.Position;
+        rect_pos=inner_rectangle.Position;
         inner_rectangle.Label = 'Inner rectangle';
         addlistener(inner_rectangle,'ROIMoved',@rectangle_moved);
         hold on
         
         %% Vanishing point
         set(info_text,'string',"Select the vanishing point");
-        vanishing_point=drawpoint('Color','r');
+        vanishing_point=drawpoint('Color','r','DrawingArea',smaller_rect(rect_pos));
         vp_pos=vanishing_point.Position;
         update_polygons();
         vanishing_point.Label = 'Vanishing point';
@@ -87,6 +88,11 @@ function ShowImageInTab2(file_path)
        
 end
 
+function constraint = smaller_rect(rect)
+rect
+    constraint = [rect(1)+1 rect(2)+1 rect(3)-1 rect(4)-1]
+end
+
 % P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
 function [x_array, y_array] = x_y_from_rect_pos(position)
     x_min=position(1);
@@ -98,17 +104,31 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
 end
        
 function rectangle_moved(~,evt)
-    global rectangle_pos;
-    rectangle_pos=evt.CurrentPosition;  
+    global rect_pos;
+    global vp_pos;
+    global vanishing_point;
+    rect_pos=evt.CurrentPosition;  
+    set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
+    if ~(inROI(inner_rectangle,new_pos(1),new_pos(2)))
+        % Move vanishing point to the middle of the rectangle if the
+        % user moves the rectangle so that the vanishing point is
+        % outside
+        set(vanishing_point, 'Position', smaller_rect(rect_pos));
+    end
     update_polygons();
 end
 
 function vp_moved(~,evt)
     global vp_pos;
-    if (inROI(inner_rect,
+    global inner_rectangle;
+    global vanishing_point;
     vp_pos=evt.CurrentPosition; 
     update_polygons();
 end
+
+% function inside = vp_inside_rect()
+%     inside=
+% end
 
 function save(~, ~)
 end
@@ -125,11 +145,11 @@ function update_polygons()
   delete(left_poly);
   delete(right_poly);
   
-  global rectangle_pos;
+  global rect_pos;
   global vp_pos;
   global image_size;
   
-  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rectangle_pos);
+  [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);

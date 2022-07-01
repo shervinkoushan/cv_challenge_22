@@ -65,7 +65,7 @@ function ShowImageInTab2(file_path)
         
         %% Vanishing point
         set(info_text,'string',"Select the vanishing point");
-        vanishing_point=drawpoint('Color','r');
+        vanishing_point=drawpoint('Color','r','DrawingArea',smaller_rect(rect_pos));
         vp_pos=vanishing_point.Position;
         update_polygons();
         vanishing_point.Label = 'Vanishing point';
@@ -88,6 +88,11 @@ function ShowImageInTab2(file_path)
        
 end
 
+% Decrease rect size by 1 pixel in each direction
+function constraint = smaller_rect(rect)
+    constraint = [rect(1)+1 rect(2)+1 rect(3)-2 rect(4)-2];
+end
+
 % P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
 function [x_array, y_array] = x_y_from_rect_pos(position)
     x_min=position(1);
@@ -100,22 +105,30 @@ end
        
 function rectangle_moved(~,evt)
     global rect_pos;
+    global vp_pos;
+    global vanishing_point;
+    global inner_rectangle;
     rect_pos=evt.CurrentPosition;  
+    set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
+    if ~(inROI(inner_rectangle,vp_pos(1),vp_pos(2)))
+        % Move vanishing point to the middle of the rectangle if the
+        % user moves the rectangle so that the vanishing point is
+        % outside
+        vp_pos=[rect_pos(1)+rect_pos(3)/2 rect_pos(2)+rect_pos(4)/2];
+        set(vanishing_point, 'Position', vp_pos);
+    end
     update_polygons();
 end
 
 function vp_moved(~,evt)
     global vp_pos;
-    global inner_rectangle;
-    global vanishing_point;
-    new_pos=evt.CurrentPosition;
-    if (inROI(inner_rectangle,new_pos(1),new_pos(2)))
-        vp_pos=evt.CurrentPosition; 
-        update_polygons();
-    else
-       set(vanishing_point, 'Position', vp_pos);
-    end
+    vp_pos=evt.CurrentPosition;
+    update_polygons();
 end
+
+% function inside = vp_inside_rect()
+%     inside=
+% end
 
 function save(~, ~)
 end
