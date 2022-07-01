@@ -9,8 +9,7 @@
 % encoded clockwise (upper-left, upper-right, lower-right,lower-left).
 % The new (bigger) image and its alhpa mask as well as the new 
 % vanishing point (vx,vy) are also returned.
-function [big_im,big_im_alpha,v,ceilrx,ceilry,floorrx,floorry,...
-    leftrx,leftry,rightrx,rightry,backrx,backry, ir, or] = ...
+function [big_im,big_im_alpha,v, ir, or] = ...
     TIP_get5rects(im,vx,vy,irx,iry,orx,ory);
 
 % expand the image so that each "face" of the box is a proper rectangle
@@ -39,49 +38,49 @@ or = [orx; ory];
 
 %%%%%%%%%%%% define the 5 rectangles
 
-% ceiling 
-ceilrx = [orx(1) orx(2) irx(2) irx(1)];
-ceilry = [ory(1) ory(2) iry(2) iry(1)];
-if (ceilry(1) < ceilry(2)),
-     ceilrx(1) = round(find_line_x(vx,vy,ceilrx(1),ceilry(1),ceilry(2)));
-     ceilry(1) = ceilry(2);
-else
-     ceilrx(2) = round(find_line_x(vx,vy,ceilrx(2),ceilry(2),ceilry(1)));
-     ceilry(2) = ceilry(1);
-end;
-
-% floor
-floorrx = [irx(4) irx(3) orx(3) orx(4)];
-floorry = [iry(4) iry(3) ory(3) ory(4)];
-if (floorry(3) > floorry(4)),
-     floorrx(3) = round(find_line_x(vx,vy,floorrx(3),floorry(3),floorry(4)));
-     floorry(3) = floorry(4);
-else
-     floorrx(4) = round(find_line_x(vx,vy,floorrx(4),floorry(4),floorry(3)));
-     floorry(4) = floorry(3);
-end;
-
-% left
-leftrx = [orx(1) irx(1) irx(4) orx(4)];
-leftry = [ory(1) iry(1) iry(4) ory(4)];
-if (leftrx(1) < leftrx(4)),
-     leftry(1) = round(find_line_y(vx,vy,leftrx(1),leftry(1),leftrx(4)));
-     leftrx(1) = leftrx(4);
-else
-     leftry(4) = round(find_line_y(vx,vy,leftrx(4),leftry(4),leftrx(1)));
-     leftrx(4) = leftrx(1);
-end;
-
-% right
-rightrx = [irx(2) orx(2) orx(3) irx(3)];
-rightry = [iry(2) ory(2) ory(3) iry(3)];
-if (rightrx(2) > rightrx(3)),
-     rightry(2) = round(find_line_y(vx,vy,rightrx(2),rightry(2),rightrx(3)));
-     rightrx(2) = rightrx(3);
-else
-     rightry(3) = round(find_line_y(vx,vy,rightrx(3),rightry(3),rightrx(2)));
-     rightrx(3) = rightrx(2);
-end;
-
-backrx = irx;
-backry = iry;
+% % ceiling 
+% ceilrx = [orx(1) orx(2) irx(2) irx(1)];
+% ceilry = [ory(1) ory(2) iry(2) iry(1)];
+% if (ceilry(1) < ceilry(2)),
+%      ceilrx(1) = round(find_line_x(vx,vy,ceilrx(1),ceilry(1),ceilry(2)));
+%      ceilry(1) = ceilry(2);
+% else
+%      ceilrx(2) = round(find_line_x(vx,vy,ceilrx(2),ceilry(2),ceilry(1)));
+%      ceilry(2) = ceilry(1);
+% end;
+% 
+% % floor
+% floorrx = [irx(4) irx(3) orx(3) orx(4)];
+% floorry = [iry(4) iry(3) ory(3) ory(4)];
+% if (floorry(3) > floorry(4)),
+%      floorrx(3) = round(find_line_x(vx,vy,floorrx(3),floorry(3),floorry(4)));
+%      floorry(3) = floorry(4);
+% else
+%      floorrx(4) = round(find_line_x(vx,vy,floorrx(4),floorry(4),floorry(3)));
+%      floorry(4) = floorry(3);
+% end;
+% 
+% % left
+% leftrx = [orx(1) irx(1) irx(4) orx(4)];
+% leftry = [ory(1) iry(1) iry(4) ory(4)];
+% if (leftrx(1) < leftrx(4)),
+%      leftry(1) = round(find_line_y(vx,vy,leftrx(1),leftry(1),leftrx(4)));
+%      leftrx(1) = leftrx(4);
+% else
+%      leftry(4) = round(find_line_y(vx,vy,leftrx(4),leftry(4),leftrx(1)));
+%      leftrx(4) = leftrx(1);
+% end;
+% 
+% % right
+% rightrx = [irx(2) orx(2) orx(3) irx(3)];
+% rightry = [iry(2) ory(2) ory(3) iry(3)];
+% if (rightrx(2) > rightrx(3)),
+%      rightry(2) = round(find_line_y(vx,vy,rightrx(2),rightry(2),rightrx(3)));
+%      rightrx(2) = rightrx(3);
+% else
+%      rightry(3) = round(find_line_y(vx,vy,rightrx(3),rightry(3),rightrx(2)));
+%      rightrx(3) = rightrx(2);
+% end;
+% 
+% backrx = irx;
+% backry = iry;
