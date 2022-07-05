@@ -3,7 +3,7 @@ function main
 %%   Set up some varables
 %   First clear everything
         clear all
-        clcs
+        clc
         
         NumberOfTabs = 2;               % Number of tabs to be generated
         TabLabels = {'Select image'; 'Perform homography'};
