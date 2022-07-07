@@ -1,5 +1,5 @@
 % Give the path of picture
-RGB = imread('C:\Users\phili\GitHub\cv_challenge_22\lib\oil-painting.png');
+RGB = imread('lib\oil-painting.png');
 
 imshow(RGB)
 

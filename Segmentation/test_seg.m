@@ -1,5 +1,5 @@
 % Give the path of picture
-pic = imread('C:\Users\phili\GitHub\cv_challenge_22\lib\oil-painting.png');
+pic = imread('lib\oil-painting.png');
 
 %Generate label matrix
 L = superpixels(pic,1000);

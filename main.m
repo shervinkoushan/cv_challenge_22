@@ -22,6 +22,12 @@ or = outer_rectangle(v, ir, im_size);
 %Top, bottom, left, right and back
 [back_rec, top_rec, bottom_rec, left_rec, right_rec] = create5rect(im_size, v, ir, or);
 
+
+big_im = zeros([ymax+tmargin+bmargin xmax+lmargin+rmargin cdepth]);
+big_im_alpha = zeros([size(big_im,1) size(big_im,2)]);
+big_im(tmargin+1:end-bmargin,lmargin+1:end-rmargin,:) = im2double(im);
+big_im_alpha(tmargin+1:end-bmargin,lmargin+1:end-rmargin) = 1;
+
 %Expected ouput from create5rect:
 %Result back_rec = [360,970,970,360,360;197,197,661,661,197]
 %Result top_rec = [78,1100,970,360;0,0,197,197]
