@@ -1,16 +1,16 @@
 function [bigim, back_b, top_b, bot_b, left_b, right_b] = createBigim(back, top, bot, left, right, im)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-minyval = [top(1,:), left(1,:), right(1,:)];
-maxyval = [bot(1,:), left(1,:), right(1,:)];
+minyval = [top(2,:), left(2,:), right(2,:)];
+maxyval = [bot(2,:), left(2,:), right(2,:)];
 
 [ymax, xmax, depth] = size(im);
 
 negymarg = -min(minyval);
 posymarg = max(maxyval) - ymax;
 
-minxval = [top(2,:), left(2,:), bot(2,:)];
-maxxval = [top(2,:), right(2,:), bot(2,:)];
+minxval = [top(1,:), left(1,:), bot(1,:)];
+maxxval = [top(1,:), right(1,:), bot(1,:)];
 
 negxmarg = -min(minxval);
 posxmarg = max(maxxval) - xmax;
@@ -18,7 +18,7 @@ posxmarg = max(maxxval) - xmax;
 
 bigim = zeros(negymarg + posymarg + ymax, negxmarg + posxmarg + xmax, depth);
 
-bigim(negymarg:end-posymarg,negxmarg:end-posxmarg, :) = im2double(im);
+bigim(negymarg+1:negymarg+ymax,negxmarg+1:xmax+negxmarg, :) = im2double(im);
 
 back_b = back;
 top_b = top;
