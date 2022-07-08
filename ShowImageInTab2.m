@@ -151,6 +151,11 @@ function update_polygons()
   im_size=round(image_size);
   [~, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
   
+  %Test
+   [bigim, back_b, top_b, bot_b, left_b, right_b] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, im)
+figure
+imshow(bigim);
+
   top_poly=plot_polygon(top_rec,'yellow');
   bottom_poly=plot_polygon(bottom_rec,'magenta');
   left_poly=plot_polygon(left_rec,'cyan');
