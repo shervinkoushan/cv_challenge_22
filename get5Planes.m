@@ -8,10 +8,10 @@ image = im2double(image);
 RA = imref2d(size(image)); % Reference data from image
 
 % Calculate points of outer rectangle
-outerRectangle = outer_rectangle(vanishingPoint, innerRectangle, size(image));
+%outerRectangle = outer_rectangle(vanishingPoint, innerRectangle, size(image));
 
 % Create 5 rectangles
-[back_rec, top_rec, bottom_rec, left_rec, right_rec] = create5rect(size(image), vanishingPoint, innerRectangle, outerRectangle);
+%[back_rec, top_rec, bottom_rec, left_rec, right_rec] = create5rect(size(image), vanishingPoint, innerRectangle, outerRectangle);
 
 % Create image with rectangles
 % ToDo get the black rounded image with the plane points on it!!!!!!!!!!!!!!!!!!!!!!!!!
