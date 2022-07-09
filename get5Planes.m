@@ -26,12 +26,12 @@ back_plane = imcrop(image,[back_rec(1,1) back_rec(2,1)  backgroundWidth backgrou
 % Define fixed points for transformation
 desiredImageDepth = backgroundWidth; % For testing get a squared image
 
-fixed_points = [0,0; backgroundWidth, 0; desiredImageDepth, backgroundWidth; 0, desiredImageDepth];
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
 transform_top = fitgeotrans(top_rec', fixed_points, 'projective');
 
 [image_top, BA_top] = imwarp(image, RA, transform_top);
-crop_settings_top = [round(abs(BA_top.XWorldLimits(1))), round(abs(BA_top.YWorldLimits(1))), backgroundWidth, desiredImageDepth];
+crop_settings_top = [round(abs(BA_top.XWorldLimits(1))), round(abs(BA_top.YWorldLimits(1))-1), backgroundWidth, desiredImageDepth];
 
 top_plane = imcrop(image_top, crop_settings_top);
 
@@ -39,19 +39,43 @@ top_plane = imcrop(image_top, crop_settings_top);
 % Define fixed points for transformation
 desiredImageDepth = backgroundWidth; % For testing get a squared image
 
-fixed_points = [0,0; backgroundWidth, 0; desiredImageDepth, backgroundWidth; 0, desiredImageDepth];
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
 transform_bottom = fitgeotrans(bottom_rec', fixed_points, 'projective');
 
 [image_bottom, BA_bottom] = imwarp(image, RA, transform_bottom);
-crop_settings_bottom = [round(abs(BA_bottom.XWorldLimits(1))), round(abs(BA_bottom.YWorldLimits(1))), backgroundWidth, desiredImageDepth];
+crop_settings_bottom = [round(abs(BA_bottom.XWorldLimits(1))), round(abs(BA_bottom.YWorldLimits(1))-1), backgroundWidth, desiredImageDepth];
 
 bottom_plane = imcrop(image_bottom, crop_settings_bottom);
 
-%%ToDo left and right plane
+%% Create left plane
+% Define fixed points for transformation
+desiredImageDepth = backgroundWidth; % For testing get a squared image
 
-left_plane= 0;
-right_plane= 0;
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+
+transform_left = fitgeotrans(left_rec', fixed_points, 'projective');
+
+[image_left, BA_left] = imwarp(image, RA, transform_left);
+crop_settings_left = [round(abs(BA_left.XWorldLimits(1))), round(abs(BA_left.YWorldLimits(1))), desiredImageDepth, backgroundWidth];
+cropped_left = imcrop(image_left, crop_settings_left);
+
+left_plane = imresize(cropped_left, [backgroundHeight desiredImageDepth]);
+
+
+%% Create right plane
+% Define fixed points for transformation
+desiredImageDepth = backgroundWidth; % For testing get a squared image
+
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+
+transform_right = fitgeotrans(right_rec', fixed_points, 'projective');
+
+[image_right, BA_right] = imwarp(image, RA, transform_right);
+crop_settings_right = [round(abs(BA_right.XWorldLimits(1))), round(abs(BA_right.YWorldLimits(1))), desiredImageDepth, backgroundWidth];
+cropped_right = imcrop(image_right, crop_settings_right);
+
+right_plane = imresize(cropped_right, [backgroundHeight desiredImageDepth]);
 
 % 
 % original_points = [63, 46; 374, 260; 374, 680; 63, 805]; 
