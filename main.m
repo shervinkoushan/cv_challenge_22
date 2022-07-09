@@ -6,6 +6,7 @@ function main
         clear all
         clc
         
+        
         NumberOfTabs = 2;               % Number of tabs to be generated
         TabLabels = {'Select image'; 'Perform homography'};
         

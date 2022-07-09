@@ -40,19 +40,19 @@ right_x = y_b.* ones(x_b,x_b);
 
 figure
 %back
-warp(back_x, back_y, back_z, I);
+warp(back_x, back_y, back_z, back);
 hold on
 %top
-warp(top_x, top_y, top_z, I);
+warp(top_x, top_y, top_z, top);
 hold on
 %bot
-warp(bot_x, bot_y, bot_z, I);
+warp(bot_x, bot_y, bot_z, bot);
 hold on
 %left
-warp(left_x, left_y, left_z, I);
+warp(left_x, left_y, left_z, left);
 hold on
 %right
-warp(right_x, right_y, right_z, I);
+warp(right_x, right_y, right_z, right);
 
 
 
