@@ -37,94 +37,99 @@ left = imrotate(left, 90);
 
 
 [y, x, ~] = size(right);
-[right_y,right_z] = meshgrid(1:x,1:y);
-right_x = x_b.* ones(x,x);
-% view = figure('name','3DViewer: Directions[W-S-A-D] Zoom[Q-E] Exit[ESC]');
-% set(view,'windowkeypressfcn','set(gcbf,''Userdata'',get(gcbf,''CurrentCharacter''))') ;
-% set(view,'windowkeyreleasefcn','set(gcbf,''Userdata'','''')') ;
-% set(view,'Color','black')
-% hold on
+[right_y,right_z] = meshgrid(1:y,1:x);
+right_x = x_b.* ones(x,y);
+right = imrotate(right, 90);
 
-
-
-%figure
-%imshow(new_img);
+%!!!!This should probably be done in get5planes!!!!
+right = flipdim(right,1);
 
 figure
+imshow(new_img);
+
+view = figure('name','3DViewer: Directions[W-S-A-D] Zoom[Q-E] Exit[ESC]');
+set(view,'windowkeypressfcn','set(gcbf,''Userdata'',get(gcbf,''CurrentCharacter''))') ;
+set(view,'windowkeyreleasefcn','set(gcbf,''Userdata'','''')') ;
+set(view,'Color','black')
 hold on
 
+%back
 warp(back_x, back_y, back_z, back);
 
+%top
 warp(top_x, top_y, top_z, top);
 
 %bot
-%warp(bot_x, bot_y, bot_z, bot);
+warp(bot_x, bot_y, bot_z, bot);
 
 %left
 warp(left_x, left_y, left_z, left);
 
-
 %right
-%warp(right_x, right_y, right_z, right);
+warp(right_x, right_y, right_z, right);
 
 
-% axis equal;  % make X,Y,Z dimentions be equal
-% axis vis3d;  % freeze the scale for better rotations
-% axis off;    % turn off the stupid tick marks
-% camproj('perspective');  % make it a perspective projection
-% 
-% % set camera position
-% camx = 60;
-% camy = 145;
-% camz = 38.8;
-% 
-% % set camera target
-% tarx = 28.5;
-% tary = 112;
-% tarz = 117.5;
-% 
-% % set camera step
-% stepx = 0.05;
-% stepy = 0.05;
-% stepz = 0.05;
-% 
-% % set camera on ground
-% camup([0,0,1]);
-% campos([camx camy camz]);
-% 
-% key = 0;
-% while (~key),
-%     waitforbuttonpress;
-%     key = get(view, 'currentch');
-%     
-%     switch key
-%         case 'd'
-%             camdolly(-stepx,0,0,'fixtarget');
-%         case 'a'
-%             camdolly(stepx,0,0,'fixtarget');
-%         case 's'
-%             camdolly(0,stepy,0,'fixtarget');
-%         case 'w'
-%             camdolly(0,-stepy,0,'fixtarget');
-%         case 'q'
-%             camdolly(0,0,stepz,'fixtarget');
-%         case 'e'
-%             camdolly(0,0,-stepz,'fixtarget');
-% 
-%         case 'b'
-%             break;
-%     end
-%     
-%     key = 0;
-% 
-%     pause(.001);
-% 
-%     %campos([camx camy camz]);
-%     %camtarget([tarx tary tarz]);
-%     pos = campos;
-%     target = camtarget;
-%     
-% end
+axis equal;  % make X,Y,Z dimentions be equal
+axis vis3d;  % freeze the scale for better rotations
+axis off;    % turn off the stupid tick marks
+camproj('perspective');  % make it a perspective projection
+
+% set camera position
+camx = y_b/2;
+camy = x_b/2;
+camz = 5*y_b;
+
+% set camera target
+%!!We need to select this on the GUI!!
+tarx = y_b/2;
+tary = x_b/2;
+tarz = 0;
+
+% set camera step
+stepx = 0.05;
+stepy = 0.05;
+stepz = 0.05;
+
+% set camera on ground
+camup([0,1,0]);
+
+campos([camx camy camz]);
+camtarget([tarx tary tarz]);
+camroll(180);
+
+key = 0;
+while (~key),
+    waitforbuttonpress;
+    key = get(view, 'currentch');
+    
+    switch key
+        case 'd'
+            camdolly(-stepx,0,0,'fixtarget');
+        case 'a'
+            camdolly(stepx,0,0,'fixtarget');
+        case 's'
+            camdolly(0,stepy,0,'fixtarget');
+        case 'w'
+            camdolly(0,-stepy,0,'fixtarget');
+        case 'q'
+            camdolly(0,0,stepz,'fixtarget');
+        case 'e'
+            camdolly(0,0,-stepz,'fixtarget');
+
+        case 'b'
+            break;
+    end
+    
+    key = 0;
+
+    pause(.001);
+
+    %campos([camx camy camz]);
+    %camtarget([tarx tary tarz]);
+    pos = campos;
+    target = camtarget;
+    
+end
 
 
 
