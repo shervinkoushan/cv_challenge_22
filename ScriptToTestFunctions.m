@@ -23,5 +23,5 @@ im_size = [829, 1152];
 % Create planes
 [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(bigim,back_b, top_b, bot_b, left_b, right_b);
 
-new_img = createDice(top_plane, left_plane, right_plane, bottom_plane, back_plane);
-imshow(new_img);
+new_img = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
+%imshow(new_img);
