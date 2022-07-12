@@ -1,4 +1,4 @@
-function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes_old(image,back_rec, top_rec, bottom_rec, left_rec, right_rec)
+function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(image,back_rec, top_rec, bottom_rec, left_rec, right_rec)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
