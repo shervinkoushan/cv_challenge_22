@@ -1,13 +1,11 @@
 function ShowImageInTab3(file_path)
 
-
         global back_rec;
         global top_rec;
         global bottom_rec;
         global left_rec;
         global right_rec;
-
-    
+  
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);
         NumberOfTabs = size(TabHandles,1)-2;
@@ -29,19 +27,15 @@ function ShowImageInTab3(file_path)
             delete(hImageAxes);     % Delete the previous image
         end
         
+            %   Make Image Tab active
+        TabSelectCallback(0,0,3);
+        
     %   Set the axes and display the image    
         ImgOffset = 40;
-        hImageAxes = axes('Parent', TabHandles{2,1}, ...
+        hImageAxes = axes('Parent', TabHandles{3,1}, ...
             'Units', 'pixels', ...
             'Position', [ImgOffset ImgOffset ...
                 PanelWidth-2*ImgOffset PanelHeight-2*ImgOffset]);
         [bigim, back_b, top_b, bot_b, left_b, right_b] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I);
-        imshow(bigim);
-        imshow(I);
-        hold on
-
-    %   Make Image Tab active
-        TabSelectCallback(0,0,3);
-        
        
 end
