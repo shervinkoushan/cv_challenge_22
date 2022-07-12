@@ -78,7 +78,7 @@ function ShowImageInTab2(file_path)
             'Units', 'pixels', ...
             'Position', [PanelWidth-140 ImgOffset 100 40], ...
             'String', 'Save', ...
-            'Callback', @save , ...
+            'Callback', {@save,file_path} , ...
             'Style', 'pushbutton',...
             'HorizontalAlignment', 'center',...
             'FontName', 'arial',...
@@ -126,7 +126,8 @@ function vp_moved(~,evt)
     update_polygons();
 end
 
-function save(~, ~)
+function save(~, ~,file_path)
+    ShowImageInTab3(file_path)
 end
 
 function update_polygons()
@@ -145,11 +146,17 @@ function update_polygons()
   global vp_pos;
   global image_size;
   
+  global back_rec;
+  global top_rec;
+  global bottom_rec;
+  global left_rec;
+  global right_rec;
+  
   [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);
-  [~, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
   
   top_poly=plot_polygon(top_rec,'yellow');
   bottom_poly=plot_polygon(bottom_rec,'magenta');

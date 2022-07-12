@@ -1,5 +1,11 @@
-function ShowImageInTab3(back_rec, top_rec, bottom_rec, left_rec, right_rec, I)
+function ShowImageInTab3(file_path)
 
+
+        global back_rec;
+        global top_rec;
+        global bottom_rec;
+        global left_rec;
+        global right_rec;
 
     
     %   Get TabHandles from guidata and set some varables
@@ -21,7 +27,6 @@ function ShowImageInTab3(back_rec, top_rec, bottom_rec, left_rec, right_rec, I)
             delete(h1);             % Delete the default content
         else
             delete(hImageAxes);     % Delete the previous image
-            delete(saveButton);     % Delete the save button
         end
         
     %   Set the axes and display the image    
@@ -38,8 +43,5 @@ function ShowImageInTab3(back_rec, top_rec, bottom_rec, left_rec, right_rec, I)
     %   Make Image Tab active
         TabSelectCallback(0,0,3);
         
-       
-        
-
        
 end
