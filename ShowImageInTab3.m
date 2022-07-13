@@ -36,8 +36,11 @@ function ShowImageInTab3(file_path)
             'Units', 'pixels', ...
             'Position', [ImgOffset ImgOffset ...
                 PanelWidth-2*ImgOffset PanelHeight-2*ImgOffset]);
+        hold on;
         [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I);
        
         %% Create flat dice 
         [new_img] = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
+        
+        rotate3d(hImageAxes)
 end

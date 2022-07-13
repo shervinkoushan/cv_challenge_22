@@ -44,12 +44,6 @@ right = imrotate(right, 90);
 %!!!!This should probably be done in get5planes!!!!
 right = flipdim(right,1);
 
-view = figure('name','3DViewer: Directions[W-S-A-D] Zoom[Q-E] Exit[ESC]');
-set(view,'windowkeypressfcn','set(gcbf,''Userdata'',get(gcbf,''CurrentCharacter''))') ;
-set(view,'windowkeyreleasefcn','set(gcbf,''Userdata'','''')') ;
-set(view,'Color','black')
-hold on
-
 %back
 warp(back_x, back_y, back_z, back);
 
@@ -93,48 +87,5 @@ camup([0,1,0]);
 campos([camx camy camz]);
 camtarget([tarx tary tarz]);
 camroll(180);
-
-key = 0;
-while (~key),
-    waitforbuttonpress;
-    key = get(view, 'currentch');
-    
-    switch key
-        case 'd'
-            camdolly(-stepx,0,0,'fixtarget');
-        case 'a'
-            camdolly(stepx,0,0,'fixtarget');
-        case 's'
-            camdolly(0,stepy,0,'fixtarget');
-        case 'w'
-            camdolly(0,-stepy,0,'fixtarget');
-        case 'q'
-            camdolly(0,0,stepz,'fixtarget');
-        case 'e'
-            camdolly(0,0,-stepz,'fixtarget');
-
-        case 'b'
-            break;
-    end
-    
-    key = 0;
-
-    pause(.001);
-
-    %campos([camx camy camz]);
-    %camtarget([tarx tary tarz]);
-    pos = campos;
-    target = camtarget;
-    
-end
-
-
-
-
-
-
-
-
-
 
 end
