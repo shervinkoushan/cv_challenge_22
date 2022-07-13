@@ -6,8 +6,9 @@ function main
         clear all
         clc
         
-        NumberOfTabs = 2;               % Number of tabs to be generated
-        TabLabels = {'Select image'; 'Perform homography'};
+        
+        NumberOfTabs = 3;               % Number of tabs to be generated
+        TabLabels = {'Select image'; 'Define inner rectangle and vanishing point';'Move around'};
         
 %   Get user screen size
         SC = get(0, 'ScreenSize');
