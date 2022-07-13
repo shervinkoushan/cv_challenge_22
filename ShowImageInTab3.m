@@ -42,5 +42,29 @@ function ShowImageInTab3(file_path)
         %% Create flat dice 
         [new_img] = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
         
-        rotate3d(hImageAxes)
+        set(gcf,'WindowKeyPressFcn',@keyPressCallback);
+
+
 end
+
+ function keyPressCallback(~,eventdata)
+      % set camera step
+    stepx = 0.05;
+    stepy = 0.05;
+    stepz = 0.05;
+      key = eventdata.Key;
+      switch key
+        case 'rightarrow'
+            camdolly(-stepx,0,0,'fixtarget');
+        case 'leftarrow'
+            camdolly(stepx,0,0,'fixtarget');
+        case 'downarrow'
+            camdolly(0,stepy,0,'fixtarget');
+        case 'uparrow'
+            camdolly(0,-stepy,0,'fixtarget');
+        case 'w'
+            camdolly(0,0,stepz,'fixtarget');
+        case 's'
+            camdolly(0,0,-stepz,'fixtarget');
+      end
+  end
