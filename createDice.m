@@ -76,11 +76,6 @@ tarx = y_b/2;
 tary = x_b/2;
 tarz = 0;
 
-% set camera step
-stepx = 0.05;
-stepy = 0.05;
-stepz = 0.05;
-
 % set camera on ground
 camup([0,1,0]);
 
