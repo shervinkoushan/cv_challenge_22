@@ -68,7 +68,7 @@ camproj('perspective');  % make it a perspective projection
 % set camera position
 camx = y_b/2;
 camy = x_b/2;
-camz = 5*y_b;
+camz = 12*y_b;
 
 % set camera target
 %!!We need to select this on the GUI!!
