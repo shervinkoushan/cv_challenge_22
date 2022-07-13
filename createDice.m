@@ -44,9 +44,6 @@ right = imrotate(right, 90);
 %!!!!This should probably be done in get5planes!!!!
 right = flipdim(right,1);
 
-figure
-imshow(new_img);
-
 view = figure('name','3DViewer: Directions[W-S-A-D] Zoom[Q-E] Exit[ESC]');
 set(view,'windowkeypressfcn','set(gcbf,''Userdata'',get(gcbf,''CurrentCharacter''))') ;
 set(view,'windowkeyreleasefcn','set(gcbf,''Userdata'','''')') ;
