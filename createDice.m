@@ -18,7 +18,7 @@ new_img((Y_1+Y_2):(Y_1+Y_2+Y_4)-1, X_2:(X_2+X_4)-1, :) = im2double(bot);
 new_img(Y_1:(Y_1+Y_5)-1, X_2:(X_2+X_5)-1, :) = im2double(back);
 
 global x_b;
-%% yb, xb er max
+global y_b;
 [y_b, x_b, ~] = size(back);
 [back_x,back_y] = meshgrid(1:x_b,1:y_b);
 back_z = 2.*ones(y_b,x_b);
