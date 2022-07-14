@@ -72,8 +72,11 @@ camx = y_b/2;
 camy = x_b/2;
 camz = 12*y_b;
 
+
+global tarx;
+global tary;
+global tarz;
 % set camera target
-%!!We need to select this on the GUI!!
 tarx = y_b/2;
 tary = x_b/2;
 tarz = 0;

@@ -49,23 +49,43 @@ function ShowImageInTab3(file_path)
 end
 
  function keyPressCallback(~,eventdata)
+ 
+    global tarx;
+    global tary;
+    global tarz;
+    
+    tar_stepx = 0.5;
+    tar_stepy = 0.5;
+    
       % set camera step
-    stepx = 0.05;
-    stepy = 0.05;
-    stepz = 0.05;
+    dolly_stepx = 0.05;
+    dolly_stepy = 0.05;
+    dolly_stepz = 0.05;
       key = eventdata.Key;
       switch key
         case 'd'
-            camdolly(-stepx,0,0,'fixtarget');
+            camdolly(-dolly_stepx,0,0,'fixtarget');
         case 'a'
-            camdolly(stepx,0,0,'fixtarget');
+            camdolly(dolly_stepx,0,0,'fixtarget');
         case 's'
-            camdolly(0,stepy,0,'fixtarget');
+            camdolly(0,dolly_stepy,0,'fixtarget');
         case 'w'
-            camdolly(0,-stepy,0,'fixtarget');
+            camdolly(0,-dolly_stepy,0,'fixtarget');
         case 'q'
-            camdolly(0,0,stepz,'fixtarget');
+            camdolly(0,0,dolly_stepz,'fixtarget');
         case 'e'
-            camdolly(0,0,-stepz,'fixtarget');
+            camdolly(0,0,-dolly_stepz,'fixtarget');
+        case 'leftarrow'
+            tarx=tarx+tar_stepx;
+            camtarget([tarx tary tarz]);
+        case 'rightarrow'
+            tarx=tarx-tar_stepx;
+            camtarget([tarx tary tarz]);
+        case 'uparrow'
+            tary=tary+tar_stepy;
+            camtarget([tarx tary tarz]);
+        case 'downarrow'
+            tary=tary-tar_stepy;
+            camtarget([tarx tary tarz]);
       end
   end
