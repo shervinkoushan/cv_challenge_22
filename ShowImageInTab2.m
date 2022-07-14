@@ -151,6 +151,7 @@ function update_polygons()
   global bottom_rec;
   global left_rec;
   global right_rec;
+  global d;
   
   [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
   vanishing_point=round(vp_pos);

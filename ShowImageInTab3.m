@@ -5,6 +5,7 @@ function ShowImageInTab3(file_path)
         global bottom_rec;
         global left_rec;
         global right_rec;
+        global d
   
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);
@@ -37,7 +38,7 @@ function ShowImageInTab3(file_path)
             'Position', [ImgOffset ImgOffset ...
                 PanelWidth-2*ImgOffset PanelHeight-2*ImgOffset]);
         hold on;
-        [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I);
+        [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I, d);
        
         %% Create flat dice 
         [new_img] = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
