@@ -66,8 +66,8 @@ axis off;    % turn off the stupid tick marks
 camproj('perspective');  % make it a perspective projection
 
 % set camera position
-camx = y_b/2;
-camy = x_b/2;
+camx = x_b/2;
+camy = y_b/2;
 camz = 12*y_b;
 
 
@@ -75,8 +75,8 @@ global tarx;
 global tary;
 global tarz;
 % set camera target
-tarx = y_b/2;
-tary = x_b/2;
+tarx = x_b/2;
+tary = y_b/2;
 tarz = 0;
 
 % set camera on ground
