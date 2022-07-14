@@ -54,8 +54,8 @@ end
     global tary;
     global tarz;
     
-    tar_stepx = 0.5;
-    tar_stepy = 0.5;
+    tar_stepx = 1.0;
+    tar_stepy = 1.0;
     
       % set camera step
     dolly_stepx = 0.05;
