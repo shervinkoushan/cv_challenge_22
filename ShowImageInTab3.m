@@ -61,7 +61,7 @@ end
     dolly_stepx = 0.05;
     dolly_stepy = 0.05;
     dolly_stepz = 0.05;
-      key = eventdata.Key;
+    key = eventdata.Key;
       switch key
         case 'd'
             camdolly(-dolly_stepx,0,0,'fixtarget');
@@ -86,6 +86,41 @@ end
             camtarget([tarx tary tarz]);
         case 'downarrow'
             tary=tary-tar_stepy;
-            camtarget([tarx tary tarz]);
+            campos([tarx tary tarz]);
       end
-  end
+      
+      position_updated
+ end
+  
+ function position_updated
+    global x_b;
+    global y_b;
+    global top_warp;
+    global bot_warp;
+    global left_warp;
+    global right_warp;
+    cam_p=campos;
+    
+    top_visible='on';
+    bot_visible='on';
+    left_visible='on';
+    right_visible='on';
+    if cam_p(2)<0
+      top_visible='off';
+    end
+    if cam_p(2)>y_b
+      bot_visible='off';
+    end
+    if cam_p(1)<0
+      left_visible='off';
+    end
+    if cam_p(1)>x_b
+      right_visible='off';
+    end
+    
+    set(top_warp,'visible',top_visible)
+    set(bot_warp,'visible',bot_visible)
+    set(left_warp,'visible',left_visible)
+    set(right_warp,'visible',right_visible)
+
+ end
