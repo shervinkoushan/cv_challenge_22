@@ -1,7 +1,6 @@
 function ShowImageInTab2(file_path)
 
         %% Global variables
-        global inner_rectangle;
         global vanishing_point;
         global rect_pos;
         global vp_pos;
@@ -55,11 +54,11 @@ function ShowImageInTab2(file_path)
         'FontName', 'arial',...
         'FontWeight', 'bold',...
         'FontSize', 11);
-        
+    
         %% Background rectangle
         inner_rectangle = drawrectangle('StripeColor','y');
         rect_pos=inner_rectangle.Position;
-        ensure_rect_non_zero_area
+        ensure_rect_non_zero_area(inner_rectangle);
         inner_rectangle.Label = 'Inner rectangle';
         addlistener(inner_rectangle,'ROIMoved',@rectangle_moved);
         hold on
@@ -85,8 +84,6 @@ function ShowImageInTab2(file_path)
             'FontName', 'arial',...
             'FontWeight', 'bold',...
             'FontSize', 11);
-
-       
 end
 
 % Decrease rect size by 1 pixel in each direction
@@ -104,8 +101,7 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
     y_array=[y_min y_min y_min+height y_min+height];
 end
 
-function ensure_rect_non_zero_area
-    global inner_rectangle;
+function ensure_rect_non_zero_area(inner_rectangle)
     global rect_pos;
     
     limit=10;
@@ -118,13 +114,12 @@ function ensure_rect_non_zero_area
     set(inner_rectangle, 'Position', rect_pos);
 end
        
-function rectangle_moved(~,evt)
+function rectangle_moved(inner_rectangle,evt)
     global rect_pos;
     global vp_pos;
     global vanishing_point;
-    global inner_rectangle;
     rect_pos=evt.CurrentPosition; 
-    ensure_rect_non_zero_area
+    ensure_rect_non_zero_area(inner_rectangle);
     % The vanishing point must stay inside the inner rectangle
     set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
     if ~(inROI(inner_rectangle,vp_pos(1),vp_pos(2)))
@@ -143,7 +138,13 @@ function vp_moved(~,evt)
 end
 
 function save(~, ~,file_path)
-    ShowImageInTab3(file_path)
+      global back_rec;
+      global top_rec;
+      global bottom_rec;
+      global left_rec;
+      global right_rec;
+      global d;
+    ShowImageInTab3(file_path,back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 end
 
 function update_polygons()
