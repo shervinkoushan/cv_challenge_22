@@ -59,6 +59,7 @@ function ShowImageInTab2(file_path)
         %% Background rectangle
         inner_rectangle = drawrectangle('StripeColor','y');
         rect_pos=inner_rectangle.Position;
+        ensure_rect_non_zero_area
         inner_rectangle.Label = 'Inner rectangle';
         addlistener(inner_rectangle,'ROIMoved',@rectangle_moved);
         hold on
@@ -102,6 +103,20 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
     x_array=[x_min x_min+width x_min+width x_min];
     y_array=[y_min y_min y_min+height y_min+height];
 end
+
+function ensure_rect_non_zero_area
+    global inner_rectangle;
+    global rect_pos;
+    
+    limit=10;
+    if rect_pos(3)<limit
+        rect_pos(3)=limit;
+    end
+    if rect_pos(4)<limit
+        rect_pos(4)=limit;
+    end
+    set(inner_rectangle, 'Position', rect_pos);
+end
        
 function rectangle_moved(~,evt)
     global rect_pos;
@@ -109,6 +124,7 @@ function rectangle_moved(~,evt)
     global vanishing_point;
     global inner_rectangle;
     rect_pos=evt.CurrentPosition; 
+    ensure_rect_non_zero_area
     % The vanishing point must stay inside the inner rectangle
     set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
     if ~(inROI(inner_rectangle,vp_pos(1),vp_pos(2)))

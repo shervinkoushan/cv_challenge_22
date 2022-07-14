@@ -6,7 +6,6 @@ function ShowImageInTab2(file_path)
         global rect_pos;
         global vp_pos;
         global image_size;
-        global I;
     
     %   Get TabHandles from guidata and set some varables
         TabHandles = guidata(gcf);
@@ -103,6 +102,18 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
     x_array=[x_min x_min+width x_min+width x_min];
     y_array=[y_min y_min y_min+height y_min+height];
 end
+
+function ensure_rect_non_zero_area()
+    global inner_rectangle;
+    global rect_pos;
+    if rect_pos(3)<2
+        rect_pos(3)=2;
+    end
+    if rect_pos(4)<2
+        rect_pos(4)=2;
+    end
+    set(inner_rectangle, 'Position', vp_pos);
+end
        
 function rectangle_moved(~,evt)
     global rect_pos;
@@ -146,13 +157,13 @@ function update_polygons()
   global rect_pos;
   global vp_pos;
   global image_size;
-  global I;
   
   global back_rec;
   global top_rec;
   global bottom_rec;
   global left_rec;
   global right_rec;
+  global d;
   
   [inner_rect_x,inner_rect_y]=x_y_from_rect_pos(rect_pos);
   vanishing_point=round(vp_pos);
@@ -160,11 +171,6 @@ function update_polygons()
   im_size=round(image_size);
   [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = backend(vanishing_point,inner_rect,im_size);
   
-  %Test
-   [bigim, back_b, top_b, bot_b, left_b, right_b] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I, d);
-   figure
-   imshow(bigim);
-
   top_poly=plot_polygon(top_rec,'yellow');
   bottom_poly=plot_polygon(bottom_rec,'magenta');
   left_poly=plot_polygon(left_rec,'cyan');
