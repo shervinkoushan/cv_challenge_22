@@ -84,8 +84,6 @@ function ShowImageInTab2(file_path)
             'FontName', 'arial',...
             'FontWeight', 'bold',...
             'FontSize', 11);
-
-       
 end
 
 % Decrease rect size by 1 pixel in each direction
@@ -140,7 +138,13 @@ function vp_moved(~,evt)
 end
 
 function save(~, ~,file_path)
-    ShowImageInTab3(file_path)
+      global back_rec;
+      global top_rec;
+      global bottom_rec;
+      global left_rec;
+      global right_rec;
+      global d;
+    ShowImageInTab3(file_path,back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 end
 
 function update_polygons()
