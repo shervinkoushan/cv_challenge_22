@@ -17,8 +17,8 @@ new_img((Y_1+Y_2):(Y_1+Y_2+Y_4)-1, X_2:(X_2+X_4)-1, :) = im2double(bot);
 
 new_img(Y_1:(Y_1+Y_5)-1, X_2:(X_2+X_5)-1, :) = im2double(back);
 
-
-
+global x_b;
+%% yb, xb er max
 [y_b, x_b, ~] = size(back);
 [back_x,back_y] = meshgrid(1:x_b,1:y_b);
 back_z = 2.*ones(y_b,x_b);
@@ -46,20 +46,24 @@ right = imrotate(right, 90);
 %!!!!This should probably be done in get5planes!!!!
 right = flipdim(right,1);
 
+global top_warp;
+global bot_warp;
+global left_warp;
+global right_warp;
 %back
 warp(back_x, back_y, back_z, back);
 
 %top
-warp(top_x, top_y, top_z, top);
+top_warp=warp(top_x, top_y, top_z, top);
 
 %bot
-warp(bot_x, bot_y, bot_z, bot);
+bot_warp=warp(bot_x, bot_y, bot_z, bot);
 
 %left
-warp(left_x, left_y, left_z, left);
+left_warp=warp(left_x, left_y, left_z, left);
 
 %right
-warp(right_x, right_y, right_z, right);
+right_warp=warp(right_x, right_y, right_z, right);
 
 
 axis equal;  % make X,Y,Z dimentions be equal

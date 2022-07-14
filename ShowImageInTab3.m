@@ -86,6 +86,22 @@ end
             camtarget([tarx tary tarz]);
         case 'downarrow'
             tary=tary-tar_stepy;
-            camtarget([tarx tary tarz]);
+            campos([tarx tary tarz]);
       end
+      
+      position_updated
+ end
+  
+ function position_updated
+ global x_b;
+ cam_t=camtarget
+ cam_p=campos
+    global top_warp;
+    global bot_warp;
+    global left_warp;
+    global right_warp;
+  if cam_p(1)>x_b
+        set(right_warp,'visible','off')
+
   end
+ end
