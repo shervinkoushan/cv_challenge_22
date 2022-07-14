@@ -19,9 +19,11 @@ im_size = [829, 1152];
 % Create the big image with 
 [bigim, back_b, top_b, bot_b, left_b, right_b] = createBigim(back_rec, top_rec, bottom_rec, left_rec, right_rec, img);
 
+% Get the depth of the 5 planes
+[d] = getDistanceRatio(v ,ir, im_size);
 
 % Create planes
-[back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(bigim,back_b, top_b, bot_b, left_b, right_b);
+[back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(bigim,back_b, top_b, bot_b, left_b, right_b, d);
 
 new_img = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
 %imshow(new_img);

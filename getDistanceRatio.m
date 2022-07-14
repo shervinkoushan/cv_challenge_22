@@ -1,4 +1,4 @@
-function [d_top, d_bottom, d_left, d_right] = getDistanceRatio(V ,inn_rect, im_size)
+function [d] = getDistanceRatio(V ,inn_rect, im_size)
 
 f = 1;
 
@@ -19,5 +19,7 @@ a = inn_rect(1,2) - V(1);
 
 d_left = (l*f/b)-f;
 d_right = (h*f/a)-f;
+
+d = [d_top, d_bottom, d_left, d_right];
 
 end

@@ -151,10 +151,10 @@ function update_polygons()
   vanishing_point=round(vp_pos);
   inner_rect=round([inner_rect_x;inner_rect_y]);
   im_size=round(image_size);
-  [back_rec, top_rec, bottom_rec, left_rec, right_rec] = backend(vanishing_point,inner_rect,im_size);
+  [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = backend(vanishing_point,inner_rect,im_size);
   
   %Test
-   [bigim, back_b, top_b, bot_b, left_b, right_b] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I);
+   [bigim, back_b, top_b, bot_b, left_b, right_b] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I, d);
    figure
    imshow(bigim);
 

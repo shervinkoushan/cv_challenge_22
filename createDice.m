@@ -17,28 +17,30 @@ new_img((Y_1+Y_2):(Y_1+Y_2+Y_4)-1, X_2:(X_2+X_4)-1, :) = im2double(bot);
 
 new_img(Y_1:(Y_1+Y_5)-1, X_2:(X_2+X_5)-1, :) = im2double(back);
 
+
+
 [y_b, x_b, ~] = size(back);
 [back_x,back_y] = meshgrid(1:x_b,1:y_b);
-back_z = zeros(y_b,x_b);
+back_z = 2.*ones(y_b,x_b);
 
 [y, x, ~] = size(top);
 [top_x,top_z] = meshgrid(1:x,1:y);
-top_y = zeros(y,x);
+top_y = 2.*ones(y,x);
 top = imrotate(top, 180);
 
 [y, x, ~] = size(bot);
 [bot_x,bot_z] = meshgrid(1:x,1:y);
-bot_y = y_b.* ones(y,x); 
+bot_y = (y_b-1).* ones(y,x); 
 
 [y, x, ~] = size(left);
 [left_y,left_z] = meshgrid(1:y,1:x);
-left_x = zeros(x,y);
+left_x = 2.*ones(x,y);
 left = imrotate(left, 90);
 
 
 [y, x, ~] = size(right);
 [right_y,right_z] = meshgrid(1:y,1:x);
-right_x = x_b.* ones(x,y);
+right_x = (x_b-1).* ones(x,y);
 right = imrotate(right, 90);
 
 %!!!!This should probably be done in get5planes!!!!
