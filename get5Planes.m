@@ -1,4 +1,4 @@
-function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(image,back_rec, top_rec, bottom_rec, left_rec, right_rec)
+function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(image,back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -24,7 +24,8 @@ back_plane = imcrop(image,[back_rec(1,1) back_rec(2,1)  backgroundWidth backgrou
 
 %% Create top plane
 % Define fixed points for transformation
-desiredImageDepth = backgroundWidth; % For testing get a squared image
+%Change this to take depth into account, currently implemented 
+desiredImageDepth = round(backgroundWidth*d(1) + backgroundWidth,0); % For testing get a squared image
 
 fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
@@ -52,7 +53,7 @@ top_plane = imcrop(image_top, crop_settings_top);
 
 %% Create bottom plane
 % Define fixed points for transformation
-desiredImageDepth = backgroundWidth; % For testing get a squared image
+desiredImageDepth = round(backgroundWidth*d(2) + backgroundWidth,0); % For testing get a squared image
 
 fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
@@ -79,9 +80,9 @@ bottom_plane = imcrop(image_bottom, crop_settings_bottom);
 
 %% Create left plane
 % Define fixed points for transformation
-desiredImageDepth = backgroundWidth; % For testing get a squared image
+desiredImageDepth = round(backgroundWidth*d(3) + backgroundWidth,0); % For testing get a squared image
 
-fixed_points = [1,1; backgroundWidth, 1; backgroundWidth, desiredImageDepth; 1, desiredImageDepth];
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
 % Transpose poinst
 left_rec = left_rec';
@@ -102,7 +103,7 @@ RA = imref2d(size(cropped_left_plane)); % Reference data from image
 [image_left, BA_left] = imwarp(cropped_left_plane, RA, transform_left);
 
 image_left = imresize(image_left, [size(image_left,1), desiredImageDepth]);
-crop_settings_left = [round(abs(BA_left.XWorldLimits(1))), round(abs(BA_left.YWorldLimits(1))), desiredImageDepth, backgroundWidth];
+crop_settings_left = [round(abs(BA_left.XWorldLimits(1))), round(abs(BA_left.YWorldLimits(1))), desiredImageDepth, desiredImageDepth];
 
 left_plane = imcrop(image_left, crop_settings_left);
 
@@ -111,7 +112,7 @@ left_plane = imresize(left_plane, [backgroundHeight desiredImageDepth]);
 
 %% Create right plane
 % Define fixed points for transformation
-desiredImageDepth = backgroundWidth; % For testing get a squared image
+desiredImageDepth = round(backgroundWidth*d(4) + backgroundWidth,0); % For testing get a squared image
 
 fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
 
@@ -133,7 +134,7 @@ RA = imref2d(size(cropped_recht_plane)); % Reference data from image
 
 image_right = imresize(image_right, [size(image_right,1), desiredImageDepth]);
 
-crop_settings_right = [round(abs(BA_right.XWorldLimits(1))), round(abs(BA_right.YWorldLimits(1))), desiredImageDepth, backgroundWidth];
+crop_settings_right = [round(abs(BA_right.XWorldLimits(1))), round(abs(BA_right.YWorldLimits(1))), desiredImageDepth, desiredImageDepth];
 right_plane = imcrop(image_right, crop_settings_right);
 
 right_plane = imresize(right_plane, [backgroundHeight desiredImageDepth]);
