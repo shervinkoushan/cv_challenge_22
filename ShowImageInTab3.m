@@ -70,16 +70,20 @@ end
             camdolly(0,0,-dolly_stepz,'fixtarget');
         case 'leftarrow'
             tarx=tarx+tar_stepx;
-            camtarget([tarx tary tarz]);
+            %camtarget([tarx tary tarz]);
+            camdolly(-dolly_stepx,0,0);
         case 'rightarrow'
             tarx=tarx-tar_stepx;
-            camtarget([tarx tary tarz]);
+            %camtarget([tarx tary tarz]);
+            camdolly(dolly_stepx,0,0);
         case 'uparrow'
             tary=tary+tar_stepy;
-            camtarget([tarx tary tarz]);
+            %camtarget([tarx tary tarz]);
+            camdolly(0,dolly_stepy,0);
         case 'downarrow'
             tary=tary-tar_stepy;
-            campos([tarx tary tarz]);
+            %campos([tarx tary tarz]);
+            camdolly(0,-dolly_stepy,0);
       end
       
       position_updated
