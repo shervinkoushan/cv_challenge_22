@@ -136,10 +136,4 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
 
     right_plane = imresize(right_plane, [backgroundHeight desiredImageDepth]);
 
-    %
-    % original_points = [63, 46; 374, 260; 374, 680; 63, 805];
-    % fixed_points = [0,0; 680-260, 0; 680-260, 680-260; 0, 680-260];
-    % trans = fitgeotrans(original_points, fixed_points, 'projective');
-    % img_d = im2double(I);
-
 end

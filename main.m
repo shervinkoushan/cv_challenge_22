@@ -5,12 +5,10 @@ function main
     close all
     clear all
     clc
-    
+
     % Add these directories to the path so that we can call the functions
     % inside
-    addpath("tab_1");
-    addpath("tab_2");
-    addpath("tab_3");
+    addpath("tab_1", "tab_2", "tab_3", "helper_functions");
 
     NumberOfTabs = 3;
     TabLabels = {'Select image'; 'Define inner rectangle and vanishing point'; 'Move around'};

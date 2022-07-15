@@ -74,16 +74,12 @@ function keyPressCallback(~, eventdata)
         case 'e'
             camdolly(0, 0, -dolly_stepz, 'fixtarget');
         case 'leftarrow'
-            tarx = tarx + tar_stepx;
             camdolly(-dolly_stepx, 0, 0);
         case 'rightarrow'
-            tarx = tarx - tar_stepx;
             camdolly(dolly_stepx, 0, 0);
         case 'uparrow'
-            tary = tary + tar_stepy;
             camdolly(0, dolly_stepy, 0);
         case 'downarrow'
-            tary = tary - tar_stepy;
             camdolly(0, -dolly_stepy, 0);
     end
 

@@ -1,6 +1,5 @@
 function [bigim, back_b, top_b, bot_b, left_b, right_b] = createBigim(back, top, bot, left, right, im)
-    %UNTITLED Summary of this function goes here
-    %   Detailed explanation goes here
+
     minyval = [top(2, :), left(2, :), right(2, :)];
     maxyval = [bot(2, :), left(2, :), right(2, :)];
 

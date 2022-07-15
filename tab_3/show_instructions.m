@@ -69,7 +69,7 @@ function display_key(char, x, y, dialog_handle)
 end
 
 function [image, alpha] = get_key_image(char)
-    [image, ~, alpha] = imread(strcat('instruction_images/', char, '.png'));
+    [image, ~, alpha] = imread(strcat('tab_3/instruction_images/', char, '.png'));
 end
 
 function display_info_text(text, handle, pos_y)
