@@ -5,7 +5,8 @@ function main
         close all
         clear all
         clc
-                
+        
+
         
         NumberOfTabs = 3;      
         TabLabels = {'Select image'; 'Define inner rectangle and vanishing point';'Move around'};
@@ -149,5 +150,9 @@ function main
 
 %%   Make Tab 1 active
         TabSelectCallback(0,0,1);
+        
+                % Only temporary, delete after testing
+        show_instructions
+                
 
 end
