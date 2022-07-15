@@ -34,11 +34,13 @@ function show_instructions(~, ~)
     display_key('down', btn_middle, 100, dialog_handle);
 
     % Display info text
-    instruction_wasd = "Use W and S to rotate vertically, A and D to rotate horizontally";
+    instruction_wasd1 = "Use W and S to rotate vertically,";
+    instruction_wasd2="A and D to rotate horizontally";
     instruction_qe = "Use Q and E to zoom in and out";
     instruction_arrows = "Use the arrows to pan in the image";
 
-    display_info_text(instruction_wasd, dialog_handle, 275);
+    display_info_text(instruction_wasd1, dialog_handle, 275);
+    display_info_text(instruction_wasd2, dialog_handle, 255);
     display_info_text(instruction_qe, dialog_handle, 180);
     display_info_text(instruction_arrows, dialog_handle, 95);
 
@@ -72,8 +74,9 @@ end
 
 function display_info_text(text, handle, pos_y)
     uicontrol('Parent', handle, 'Style', 'text', ...
-        'Position', [190 pos_y 200 40], ...
+        'Position', [200 pos_y 200 40], ...
         'String', text, ...
+        'HorizontalAlignment', 'left',...
         'FontName', 'arial', ...
-        'FontSize', 8);
+        'FontSize', 9);
 end
