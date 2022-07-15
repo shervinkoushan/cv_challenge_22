@@ -150,9 +150,4 @@ function main
 
 %%   Make Tab 1 active
         TabSelectCallback(0,0,1);
-        
-                % Only temporary, delete after testing
-        show_instructions
-                
-
 end
