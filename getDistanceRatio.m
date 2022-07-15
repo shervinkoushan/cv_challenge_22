@@ -22,4 +22,13 @@ d_right = (h*f/a)-f;
 
 d = [d_top, d_bottom, d_left, d_right];
 
+ind_max = find(d == max(d));
+ind_min = find(d == min(d));
+
+d_new = d(d~=max(d));
+d_new = d_new(d_new~=min(d_new));
+
+d(ind_max) = max(d_new);
+d(ind_min) = min(d_new);
+
 end

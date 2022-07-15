@@ -5,6 +5,8 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
 %imread("Show the five planes.png")
 
 image = im2double(image);
+
+
 %RA = imref2d(size(image)); % Reference data from image
 
 % Calculate points of outer rectangle
@@ -26,8 +28,9 @@ back_plane = imcrop(image,[back_rec(1,1) back_rec(2,1)  backgroundWidth backgrou
 % Define fixed points for transformation
 %Change this to take depth into account, currently implemented 
 desiredImageDepth = round(backgroundWidth*d(1) + backgroundWidth,0); % For testing get a squared image
+resolution = desiredImageDepth;
 
-fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, resolution; 0, resolution];
 
 % Transpose poinst
 top_rec = top_rec';
@@ -54,8 +57,9 @@ top_plane = imcrop(image_top, crop_settings_top);
 %% Create bottom plane
 % Define fixed points for transformation
 desiredImageDepth = round(backgroundWidth*d(2) + backgroundWidth,0); % For testing get a squared image
+resolution = desiredImageDepth;
 
-fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, resolution; 0, resolution];
 
 % Transpose poinst
 bottom_rec = bottom_rec';
@@ -81,8 +85,9 @@ bottom_plane = imcrop(image_bottom, crop_settings_bottom);
 %% Create left plane
 % Define fixed points for transformation
 desiredImageDepth = round(backgroundWidth*d(3) + backgroundWidth,0); % For testing get a squared image
+resolution = desiredImageDepth;
 
-fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+fixed_points = [0,0; resolution, 0; resolution, resolution; 0, resolution];
 
 % Transpose poinst
 left_rec = left_rec';
@@ -113,8 +118,9 @@ left_plane = imresize(left_plane, [backgroundHeight desiredImageDepth]);
 %% Create right plane
 % Define fixed points for transformation
 desiredImageDepth = round(backgroundWidth*d(4) + backgroundWidth,0); % For testing get a squared image
+resolution = desiredImageDepth;
 
-fixed_points = [0,0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+fixed_points = [0,0; resolution, 0; resolution, resolution; 0, resolution];
 
 % Transpose poinst
 right_rec = right_rec';
