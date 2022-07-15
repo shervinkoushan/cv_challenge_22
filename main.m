@@ -5,9 +5,9 @@ function main
         close all
         clear all
         clc
+                
         
-        
-        NumberOfTabs = 3;               % Number of tabs to be generated
+        NumberOfTabs = 3;      
         TabLabels = {'Select image'; 'Define inner rectangle and vanishing point';'Move around'};
         
 %   Get user screen size
