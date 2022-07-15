@@ -76,10 +76,6 @@ camx = x_b/2;
 camy = y_b/2;
 camz = 12*y_b;
 
-
-global tarx;
-global tary;
-global tarz;
 % set camera target
 tarx = x_b/2;
 tary = y_b/2;
