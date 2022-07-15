@@ -38,17 +38,22 @@ function ShowImageInTab3(file_path,back_rec, top_rec, bottom_rec, left_rec, righ
         
         set(TabHandles{NumberOfTabs+1,1},'WindowKeyPressFcn',@keyPressCallback);
 
+        
+         %% Instructions button
+         uicontrol('Parent', TabHandles{3,1}, ...
+            'Units', 'pixels', ...
+            'Position', [PanelWidth-140 400 100 40], ...
+            'String', 'Instructions', ...
+            'Callback', @show_instructions , ...
+            'Style', 'pushbutton',...
+            'HorizontalAlignment', 'center',...
+            'FontName', 'arial',...
+            'FontWeight', 'bold',...
+            'FontSize', 11);
 
 end
 
  function keyPressCallback(~,eventdata)
- 
-    global tarx;
-    global tary;
-    global tarz;
-    
-    tar_stepx = 1.0;
-    tar_stepy = 1.0;
     
       % set camera step
     dolly_stepx = 0.05;
@@ -70,19 +75,15 @@ end
             camdolly(0,0,-dolly_stepz,'fixtarget');
         case 'leftarrow'
             tarx=tarx+tar_stepx;
-            %camtarget([tarx tary tarz]);
             camdolly(-dolly_stepx,0,0);
         case 'rightarrow'
             tarx=tarx-tar_stepx;
-            %camtarget([tarx tary tarz]);
             camdolly(dolly_stepx,0,0);
         case 'uparrow'
             tary=tary+tar_stepy;
-            %camtarget([tarx tary tarz]);
             camdolly(0,dolly_stepy,0);
         case 'downarrow'
             tary=tary-tar_stepy;
-            %campos([tarx tary tarz]);
             camdolly(0,-dolly_stepy,0);
       end
       
