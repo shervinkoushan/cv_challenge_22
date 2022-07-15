@@ -16,7 +16,7 @@ function show_instructions(~, ~)
             'FontSize', 10);
         
     instruction_wasd="Use W and S to rotate vertically, A and D to rotate horizontally";
-    [x,~] = imread('instruction_images/wasd.png'); 
+    [x,~] = imread('instruction_images/w.png'); 
     I2=imresize(x, [42 113]);
     uicontrol('units','pixels','position',[40 200 113 42],'cdata',I2,'Parent',d);
     uicontrol('Parent',d,'Style','text',...
@@ -25,7 +25,7 @@ function show_instructions(~, ~)
             'FontName', 'arial',...
             'FontSize', 8);
         
-    [x,~] = imread('instruction_images/qe.png'); 
+    [x,~] = imread('instruction_images/q.png'); 
     I2=imresize(x, [42 113]);
     uicontrol('units','pixels','position',[40 300 113 42],'cdata',I2,'Parent',d);
     uicontrol('Parent',d,'Style','text',...
@@ -34,7 +34,7 @@ function show_instructions(~, ~)
             'FontName', 'arial',...
             'FontSize', 8);
         
-    [x,~] = imread('instruction_images/arrow.png'); 
+    [x,~] = imread('instruction_images/e.png'); 
     I2=imresize(x, [42 113]);
     uicontrol('units','pixels','position',[40 100 113 42],'cdata',I2,'Parent',d);
     uicontrol('Parent',d,'Style','text',...
