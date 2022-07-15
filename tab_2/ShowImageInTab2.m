@@ -103,7 +103,7 @@ end
 function ensure_rect_non_zero_area(inner_rectangle)
     global rect_pos;
 
-    limit = 10;
+    limit = 30;
 
     if rect_pos(3) < limit
         rect_pos(3) = limit;
