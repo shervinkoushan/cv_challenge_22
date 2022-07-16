@@ -25,7 +25,8 @@ function open_image(~, ~)
 
     % Now that an image is selected, we can go to tab 2
     % We cant move to tab 3 yet though
-    enable_tab2_disable_tab3;
+    toggle_tab(2, true);
+    toggle_tab(3, false);
     tab2(path);
 
 end

@@ -59,7 +59,8 @@ function select_image(~, ~)
     if path ~= ""
         % Now that an image is selected, we can go to tab 2
         % We can't move to tab 3 yet though
-        enable_tab2_disable_tab3;
+        toggle_tab(2, true);
+        toggle_tab(3, false);
         tab2(path);
     end
 

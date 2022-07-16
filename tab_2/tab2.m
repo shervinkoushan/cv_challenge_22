@@ -100,8 +100,7 @@ end
 
 function rectangle_moved(inner_rectangle, evt)
     % User selection changed, need to save first to be able to go tab 3
-    global can_go_to_tab3;
-    can_go_to_tab3 = false;
+    toggle_tab(3, false);
 
     % Set inner rectangle position
     global rect_pos;
@@ -125,8 +124,7 @@ end
 
 function vp_moved(~, evt)
     % User selection changed, need to save first to be able to go tab 3
-    global can_go_to_tab3;
-    can_go_to_tab3 = false;
+    toggle_tab(3, false);
 
     % Update vanishing point position
     global vp_pos;
@@ -143,8 +141,7 @@ function save(~, ~, file_path)
     global d;
 
     % Now that the inner rectangle and vanishing point is selected, we can go to tab 3
-    global can_go_to_tab3;
-    can_go_to_tab3 = true;
+    toggle_tab(3, true);
     tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 end
 
