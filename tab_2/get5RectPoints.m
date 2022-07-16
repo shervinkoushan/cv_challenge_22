@@ -1,4 +1,4 @@
-function [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = backend(vanishing_point, inner_rectangle, image_size)
+function [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get5RectPoints(vanishing_point, inner_rectangle, image_size)
 
     %% Use Function outer_rectangular.m to calculate the outer rectangular
     %Refer to Report Tour into the picture: Figure 4 c, outer rectangular are
