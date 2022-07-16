@@ -14,7 +14,7 @@ function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
     delete(hImageAxes); % Delete the previous image
 
     %   Make this tab active
-    TabSelectCallback(0, 0, 3);
+    tab_selected(0, 0, 3);
 
     %   Set the axes and display the image
     ImgOffset = 40;

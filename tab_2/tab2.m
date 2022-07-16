@@ -31,7 +31,7 @@ function tab2(file_path)
     hold on
 
     %   Make Image Tab active
-    TabSelectCallback(0, 0, 2);
+    tab_selected(0, 0, 2);
 
     [dim_x, dim_y, ~] = size(I);
     image_size = [dim_x dim_y];

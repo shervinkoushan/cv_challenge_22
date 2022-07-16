@@ -1,17 +1,16 @@
 function main
 
-    %   First clear everything
+    % Close everything
     close all
     clear all
     clc
 
-    % Add these directories to the path so that we can call the functions
-    % inside
+    % Add these directories to the path so that we can call the functions inside
     addpath("tab_1", "tab_2", "tab_3", "helper_functions");
 
     % The tabs
-    NumberOfTabs = 3;
-    TabLabels = {'Select image'; 'Define inner rectangle and vanishing point'; 'Move around'};
+    num_tabs = 3;
+    tab_labels = {'Select image'; 'Define inner rectangle and vanishing point'; 'Move around'};
 
     % Whether the user can move to these tabs
     global can_go_to_tab2;
@@ -19,83 +18,66 @@ function main
     can_go_to_tab2 = false;
     can_go_to_tab3 = false;
 
-    %   Get user screen size
-    SC = get(0, 'ScreenSize');
-    MaxMonitorX = SC(3);
-    MaxMonitorY = SC(4);
+    % The screen size of the user
+    screen_size = get(0, 'ScreenSize');
+    monitor_max_x = screen_size(3);
+    monitor_max_y = screen_size(4);
 
-    %   Set the figure window size values
-    MainFigScale = 0.8; % Change this value to adjust the figure size
-    MaxWindowX = round(MaxMonitorX * MainFigScale);
-    MaxWindowY = round(MaxMonitorY * MainFigScale);
-    XBorder = (MaxMonitorX - MaxWindowX) / 2;
-    YBorder = (MaxMonitorY - MaxWindowY) / 2;
-    TabOffset = 0; % This value offsets the tabs inside the figure.
-    ButtonHeight = 40;
-    PanelWidth = MaxWindowX - 2 * TabOffset + 4;
-    PanelHeight = MaxWindowY - ButtonHeight - 2 * TabOffset;
-    ButtonWidth = round((PanelWidth - NumberOfTabs) / NumberOfTabs);
+    % Constants that define the UIPanel
+    scale = 0.8;
+    window_max_x = round(monitor_max_x * scale);
+    window_max_y = round(monitor_max_y * scale);
+    x_border = (monitor_max_x - window_max_x) / 2;
+    y_border = (monitor_max_y - window_max_y) / 2;
+    btn_height = 40;
+    panel_width = window_max_x + 4;
+    panel_height = window_max_y - btn_height;
+    btn_width = round((panel_width - num_tabs) / num_tabs);
 
-    %   Set the color varables.
-    White = [1 1 1]; % White - Selected tab color
-    BGColor = .9 * White; % Light Grey - Background color
+    % Colors
+    white = [1 1 1];
+    bg_color = .9 * white;
 
-    %%   Create a figure for the tabs
-    hTabFig = figure( ...
-    'Units', 'pixels', ...
-        'Toolbar', 'none', ...
-        'Position', [XBorder, YBorder, MaxWindowX, MaxWindowY], ...
+    % Figure for the tabs
+    tab_fig = figure('Units', 'pixels', 'Toolbar', 'none', ...
+    'Position', [x_border, y_border, window_max_x, window_max_y], ...
         'NumberTitle', 'off', ...
-        'Name', 'Computer Vision Challenge', ...
-        'MenuBar', 'none', ...
-        'Resize', 'off', ...
-        'DockControls', 'off', ...
-        'Color', White);
+        'Name', 'Computer Vision Challenge', 'MenuBar', 'none', ...
+        'Resize', 'off', 'DockControls', 'off', 'Color', white);
 
-    %%   Define a cell array for panel and pushbutton handles, pushbuttons labels and other data
-    %   rows are for each tab + two additional rows for other data
-    %   columns are uipanel handles, selection pushbutton handles, and tab label strings - 3 columns.
-    TabHandles = cell(NumberOfTabs, 3);
-    TabHandles(:, 3) = TabLabels(:, 1);
-    %   Add additional rows for other data
-    TabHandles{NumberOfTabs + 1, 1} = hTabFig; % Main figure handle
-    TabHandles{NumberOfTabs + 1, 2} = PanelWidth; % Width of tab panel
-    TabHandles{NumberOfTabs + 1, 3} = PanelHeight; % Height of tab panel
-    TabHandles{NumberOfTabs + 2, 1} = 0; % Handle to default tab 2 content(set later)
-    TabHandles{NumberOfTabs + 2, 2} = White; % Selected tab Color
-    TabHandles{NumberOfTabs + 2, 3} = BGColor; % Background color
+    % Store the information we need in tab_handles
+    tab_handles = cell(num_tabs, 3);
+    tab_handles(:, 3) = tab_labels(:, 1);
+    tab_handles{num_tabs + 1, 1} = tab_fig;
+    tab_handles{num_tabs + 1, 2} = panel_width;
+    tab_handles{num_tabs + 1, 3} = panel_height;
+    tab_handles{num_tabs + 2, 1} = 0;
+    tab_handles{num_tabs + 2, 2} = white;
+    tab_handles{num_tabs + 2, 3} = bg_color;
 
-    %%   Build the Tabs
-    for TabNumber = 1:NumberOfTabs
-        % create a UIPanel
-        TabHandles{TabNumber, 1} = uipanel('Units', 'pixels', ...
-        'Visible', 'off', 'Backgroundcolor', White, 'BorderWidth', 1, ...
-            'Position', [TabOffset TabOffset PanelWidth PanelHeight]);
+    % Set functionality and design of tabs
+    for tab = 1:num_tabs
+        % The tab is a UIPanel
+        tab_handles{tab, 1} = uipanel('Units', 'pixels', ...
+        'Visible', 'off', 'Backgroundcolor', white, 'BorderWidth', 1, ...
+            'Position', [0 0 panel_width panel_height]);
 
-        % create a selection pushbutton
-        TabHandles{TabNumber, 2} = uicontrol('Style', 'pushbutton', ...
-        'Units', 'pixels', ...
-            'BackgroundColor', BGColor, ...
-            'Position', [TabOffset + (TabNumber - 1) * ButtonWidth PanelHeight + TabOffset ...
-                ButtonWidth ButtonHeight], ...
-            'String', TabHandles{TabNumber, 3}, ...
-            'HorizontalAlignment', 'center', ...
-            'FontName', 'arial', ...
-            'FontWeight', 'bold', ...
-            'FontSize', 10);
+        % Button for each tab
+        tab_handles{tab, 2} = uicontrol('Style', 'pushbutton', ...
+        'Units', 'pixels', 'BackgroundColor', bg_color, ...
+            'Position', [(tab - 1) * btn_width panel_height btn_width btn_height], ...
+            'String', tab_handles{tab, 3}, 'HorizontalAlignment', 'center', ...
+            'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 10);
     end
 
-    %%   Define the callbacks for the Tab Buttons
-    for CountTabs = 1:NumberOfTabs
-        set(TabHandles{CountTabs, 2}, 'callback', {@TabSelectCallback, CountTabs});
+    % Callback when tab is clicked
+    for tab = 1:num_tabs
+        set(tab_handles{tab, 2}, 'callback', {@tab_selected, tab});
     end
 
-    %%   Save the TabHandles in guidata
-    guidata(hTabFig, TabHandles);
+    % Save tab handles in guidata
+    guidata(tab_fig, tab_handles);
 
-    %% Set content for tab 1
+    % Set content for tab 1 and make this tab active
     tab1;
-
-    %%   Make Tab 1 active
-    TabSelectCallback(0, 0, 1);
 end
