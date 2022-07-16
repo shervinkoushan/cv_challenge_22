@@ -172,7 +172,7 @@ function update_polygons()
     vanishing_point = round(vp_pos);
     inner_rect = round([inner_rect_x; inner_rect_y]);
     im_size = round(image_size);
-    [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = backend(vanishing_point, inner_rect, im_size);
+    [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get5RectPoints(vanishing_point, inner_rect, im_size);
 
     % Plot the rectangles
     top_poly = plot_polygon(top_rec, 'yellow');

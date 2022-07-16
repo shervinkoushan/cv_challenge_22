@@ -1,19 +1,20 @@
 function [d] = getDistanceRatio(V, inn_rect, im_size)
 
+    % Define a relative focal length
     f = 1;
 
-    % Top and bottom calculations
-    l = V(2) - 0; % l = h1-Vy
-    h = im_size(1) - V(2); % h = Vy-h2
+    % Calculate top and bottom depths
+    l = V(2) - 0;
+    h = im_size(1) - V(2);
     b = V(2) - inn_rect(2, 2);
     a = inn_rect(2, 3) - V(2);
 
     d_top = (l * f / b) - f;
     d_bottom = (h * f / a) - f;
 
-    % Right and left calculations
-    l = V(1) - 0; % l = h1-Vy
-    h = im_size(2) - V(1); % h = Vy-h2
+    % Calculate left and right depths
+    l = V(1) - 0;
+    h = im_size(2) - V(1);
     b = V(1) - inn_rect(1, 1);
     a = inn_rect(1, 2) - V(1);
 
