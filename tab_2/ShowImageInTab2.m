@@ -18,16 +18,10 @@ function ShowImageInTab2(file_path)
     %   Load the image
     I = imread(file_path);
 
-    % Get handle of default panel content
-    h1 = TabHandles{size(TabHandles, 1), 1};
 
-    %   Delete the previous panel content
-    if ishandle(h1)
-        delete(h1); % Delete the default content
-    else
-        delete(hImageAxes); % Delete the previous image
-        delete(saveButton); % Delete the save button
-    end
+    delete(hImageAxes); % Delete the previous image
+    delete(saveButton); % Delete the save button
+    
 
     %   Set the axes and display the image
     ImgOffset = 40;
@@ -117,6 +111,10 @@ function ensure_rect_non_zero_area(inner_rectangle)
 end
 
 function rectangle_moved(inner_rectangle, evt)
+    % User selection changed, need to save first to be able to go tab 3
+    global can_go_to_tab3;
+    can_go_to_tab3 = false;
+
     global rect_pos;
     global vp_pos;
     global vanishing_point;
@@ -136,6 +134,9 @@ function rectangle_moved(inner_rectangle, evt)
 end
 
 function vp_moved(~, evt)
+    % User selection changed, need to save first to be able to go tab 3
+    global can_go_to_tab3;
+    can_go_to_tab3 = false;
     global vp_pos;
     vp_pos = evt.CurrentPosition;
     update_polygons();
@@ -148,6 +149,10 @@ function save(~, ~, file_path)
     global left_rec;
     global right_rec;
     global d;
+    % Now that the inner rectangle and vanishing point is
+    % is selected, we can go to tab 3
+    global can_go_to_tab3;
+    can_go_to_tab3 = true;
     ShowImageInTab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 end
 
