@@ -1,50 +1,45 @@
 function tab2(file_path)
 
-    %% Global variables
+    % Global variables
     global vanishing_point;
     global rect_pos;
     global vp_pos;
     global image_size;
 
     %   Get TabHandles from guidata and set some varables
-    TabHandles = guidata(gcf);
-    NumberOfTabs = size(TabHandles, 1) - 2;
-    PanelWidth = TabHandles{NumberOfTabs + 1, 2};
-    PanelHeight = TabHandles{NumberOfTabs + 1, 3};
+    tab_handles = guidata(gcf);
+    num_tabs = size(tab_handles, 1) - 2;
+    panel_width = tab_handles{num_tabs + 1, 2};
+    panel_height = tab_handles{num_tabs + 1, 3};
 
-    persistent hImageAxes
+    % Delete previous content
+    persistent image_axes
     persistent saveButton
-
-    %   Load the image
-    I = imread(file_path);
-
-    delete(hImageAxes); % Delete the previous image
+    delete(image_axes); % Delete the previous image
     delete(saveButton); % Delete the save button
+
+    % Load the image
+    img = imread(file_path);
 
     %   Set the axes and display the image
     ImgOffset = 40;
-    hImageAxes = axes('Parent', TabHandles{2, 1}, ...
-        'Units', 'pixels', ...
+    image_axes = axes('Parent', tab_handles{2, 1}, 'Units', 'pixels', ...
         'Position', [ImgOffset ImgOffset ...
-            PanelWidth - 2 * ImgOffset PanelHeight - 2 * ImgOffset]);
-    imshow(I);
+            panel_width - 2 * ImgOffset panel_height - 2 * ImgOffset]);
+    imshow(img);
     hold on
 
-    %   Make Image Tab active
-    TabSelectCallback(0, 0, 2);
+    %  Make this tab active
+    tab_selected(0, 0, 2);
 
-    [dim_x, dim_y, ~] = size(I);
+    [dim_x, dim_y, ~] = size(img);
     image_size = [dim_x dim_y];
 
     info_text = uicontrol('Style', 'text', ...
-        'Position', [PanelWidth - 170 300 150 100], ...
-        'Parent', TabHandles{2, 1}, ...
-        'BackgroundColor', [1 1 1], ...
-        'string', 'Draw the inner rectangle', ...
-        'HorizontalAlignment', 'center', ...
-        'FontName', 'arial', ...
-        'FontWeight', 'bold', ...
-        'FontSize', 11);
+        'Position', [panel_width - 170 300 150 100], ...
+        'Parent', tab_handles{2, 1}, 'BackgroundColor', [1 1 1], ...
+        'string', 'Draw the inner rectangle', 'FontName', 'arial', ...
+        'FontWeight', 'bold', 'FontSize', 11);
 
     %% Background rectangle
     inner_rectangle = drawrectangle('StripeColor', 'y');
@@ -65,16 +60,11 @@ function tab2(file_path)
     set(info_text, 'string', "Make adjustments and save when you are finished");
 
     %% Save button
-    saveButton = uicontrol('Parent', TabHandles{2, 1}, ...
-    'Units', 'pixels', ...
-        'Position', [PanelWidth - 140 ImgOffset 100 40], ...
-        'String', 'Save', ...
-        'Callback', {@save, file_path}, ...
-        'Style', 'pushbutton', ...
-        'HorizontalAlignment', 'center', ...
-        'FontName', 'arial', ...
-        'FontWeight', 'bold', ...
-        'FontSize', 11);
+    saveButton = uicontrol('Parent', tab_handles{2, 1}, ...
+    'Units', 'pixels', 'Position', [panel_width - 140 ImgOffset 100 40], ...
+        'String', 'Save', 'Callback', {@save, file_path}, ...
+        'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
+        'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
 end
 
 % Decrease rect size by 1 pixel in each direction
@@ -82,6 +72,7 @@ function constraint = smaller_rect(rect)
     constraint = [rect(1) + 1 rect(2) + 1 rect(3) - 2 rect(4) - 2];
 end
 
+% Get the four points from the rectangle's positon
 % P1 upper left, P2 upper right, P3 bottom right, P4 buttom left
 function [x_array, y_array] = x_y_from_rect_pos(position)
     x_min = position(1);
@@ -94,7 +85,6 @@ end
 
 function ensure_rect_non_zero_area(inner_rectangle)
     global rect_pos;
-
     limit = 30;
 
     if rect_pos(3) < limit
@@ -113,11 +103,13 @@ function rectangle_moved(inner_rectangle, evt)
     global can_go_to_tab3;
     can_go_to_tab3 = false;
 
+    % Set inner rectangle position
     global rect_pos;
     global vp_pos;
     global vanishing_point;
     rect_pos = evt.CurrentPosition;
     ensure_rect_non_zero_area(inner_rectangle);
+
     % The vanishing point must stay inside the inner rectangle
     set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
 
@@ -135,6 +127,8 @@ function vp_moved(~, evt)
     % User selection changed, need to save first to be able to go tab 3
     global can_go_to_tab3;
     can_go_to_tab3 = false;
+
+    % Update vanishing point position
     global vp_pos;
     vp_pos = evt.CurrentPosition;
     update_polygons();
@@ -147,8 +141,8 @@ function save(~, ~, file_path)
     global left_rec;
     global right_rec;
     global d;
-    % Now that the inner rectangle and vanishing point is
-    % is selected, we can go to tab 3
+
+    % Now that the inner rectangle and vanishing point is selected, we can go to tab 3
     global can_go_to_tab3;
     can_go_to_tab3 = true;
     tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
@@ -183,6 +177,7 @@ function update_polygons()
     im_size = round(image_size);
     [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = backend(vanishing_point, inner_rect, im_size);
 
+    % Plot the rectangles
     top_poly = plot_polygon(top_rec, 'yellow');
     bottom_poly = plot_polygon(bottom_rec, 'magenta');
     left_poly = plot_polygon(left_rec, 'cyan');
