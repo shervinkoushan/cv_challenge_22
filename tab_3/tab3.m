@@ -1,63 +1,51 @@
 function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 
     %   Get TabHandles from guidata and set some varables
-    TabHandles = guidata(gcf);
-    NumberOfTabs = size(TabHandles, 1) - 2;
-    PanelWidth = TabHandles{NumberOfTabs + 1, 2};
-    PanelHeight = TabHandles{NumberOfTabs + 1, 3};
+    tab_handles = guidata(gcf);
+    num_tabs = size(tab_handles, 1) - 2;
+    panel_width = tab_handles{num_tabs + 1, 2};
+    panel_height = tab_handles{num_tabs + 1, 3};
 
-    persistent hImageAxes
+    persistent image_axes;
+    delete(image_axes); % Delete the previous contents
 
-    %   Load the image
-    I = imread(file_path);
-
-    delete(hImageAxes); % Delete the previous image
-
-    %   Make this tab active
+    %  Make this tab active
     tab_selected(0, 0, 3);
 
-    %   Set the axes and display the image
+    %   Load the image
+    img = imread(file_path);
+
+    %  Set the axes and display the image
     ImgOffset = 40;
-    hImageAxes = axes('Parent', TabHandles{3, 1}, ...
-        'Units', 'pixels', ...
+    image_axes = axes('Parent', tab_handles{3, 1}, 'Units', 'pixels', ...
         'Position', [ImgOffset ImgOffset ...
-            PanelWidth - 2 * ImgOffset PanelHeight - 2 * ImgOffset]);
+            panel_width - 2 * ImgOffset panel_height - 2 * ImgOffset]);
     hold on;
-    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, I, d);
+    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, d);
 
-    %% Create flat dice
-    [new_img] = createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
+    % Create flat dice
+    createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
 
-    set(TabHandles{NumberOfTabs + 1, 1}, 'WindowKeyPressFcn', @keyPressCallback);
-
-    %% Instructions button
-    uicontrol('Parent', TabHandles{3, 1}, ...
-    'Units', 'pixels', ...
-        'Position', [PanelWidth - 140 400 120 40], ...
-        'String', 'Instructions', ...
-        'Callback', @show_instructions, ...
-        'Style', 'pushbutton', ...
-        'HorizontalAlignment', 'center', ...
-        'FontName', 'arial', ...
-        'FontWeight', 'bold', ...
-        'FontSize', 11);
+    % Use the keyboard buttons to roate and zoom
+    set(tab_handles{num_tabs + 1, 1}, 'WindowKeyPressFcn', @keyPressCallback);
 
     %% Instructions button
-    uicontrol('Parent', TabHandles{3, 1}, ...
-    'Units', 'pixels', ...
-        'Position', [PanelWidth - 140 320 120 40], ...
-        'String', 'Export image', ...
-        'Callback', {@take_screenshot, hImageAxes}, ...
-        'Style', 'pushbutton', ...
-        'HorizontalAlignment', 'center', ...
-        'FontName', 'arial', ...
-        'FontWeight', 'bold', ...
-        'FontSize', 11);
+    uicontrol('Parent', tab_handles{3, 1}, ...
+    'Units', 'pixels', 'Position', [panel_width - 140 400 120 40], ...
+        'String', 'Instructions', 'Callback', @show_instructions, ...
+        'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
+        'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
+
+    %% Screenshot button
+    uicontrol('Parent', tab_handles{3, 1}, ...
+    'Units', 'pixels', 'Position', [panel_width - 140 320 120 40], ...
+        'String', 'Export image', 'Callback', {@take_screenshot, image_axes}, ...
+        'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
+        'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
 
 end
 
 function take_screenshot(~, ~, ax)
-
     % Get the desired location and file type
     [file, path, ext] = uiputfile({'*.png'; '*.jpg'});
 
@@ -76,8 +64,9 @@ function take_screenshot(~, ~, ax)
 end
 
 function keyPressCallback(~, eventdata)
+    % Key pressed -> find out which one and control camera accordingly
 
-    % set camera step
+    % Camera step
     dolly_stepx = 0.05;
     dolly_stepy = 0.05;
     dolly_stepz = 0.05;
@@ -106,10 +95,14 @@ function keyPressCallback(~, eventdata)
             camdolly(0, -dolly_stepy, 0);
     end
 
-    position_updated
+    hide_planes_if_in_background
 end
 
-function position_updated
+function hide_planes_if_in_background
+    % This function ensures that we can still see inside the 3d dice,
+    % i.e. if we move around on one side that plane will be hidden so that
+    % we can see whats behind
+
     global x_b;
     global y_b;
     global top_warp;
