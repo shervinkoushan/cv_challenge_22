@@ -1,5 +1,5 @@
-%%   Select Image Callback
-function SelectImageCallback(~, ~)
+%%  Select Image Callback
+function select_image(~, ~)
 
     dialog_pos_x = 500;
     dialog_pos_y = 200;
@@ -49,7 +49,8 @@ function SelectImageCallback(~, ~)
     end
 
     PicFilePath = "";
-    % Wait for d to close before running to completion
+
+    % Wait for the dialog to close before running to completion
     uiwait(d);
 
     function image_callback(~, ~, filepath)
