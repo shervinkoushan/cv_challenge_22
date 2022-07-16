@@ -66,9 +66,18 @@ end
 
 function take_screenshot(~, ~, ax)
 
-    [file, path] = uiputfile({'*.png'; '*.jpg'});
+    % Get the desired location and file type
+    [file, path, ext] = uiputfile({'*.png'; '*.jpg'});
 
     if ~(isequal(file, 0) || isequal(path, 0))
+        % Check if the file is of type any (Matlab automatically appends
+        % this option even if it is not specified in uiputfile
+        % If it is of type any, save it as a png file
+        if ext == 3
+            file = strcat(file, ".png");
+        end
+
+        % Export the image
         exportgraphics(ax, fullfile(path, file));
     end
 
