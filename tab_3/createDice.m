@@ -27,6 +27,7 @@ function [new_img] = createDice(back, top, bot, left, right)
     [top_x, top_z] = meshgrid(1:x, 1:y);
     top_y = 2 .* ones(y, x);
     top = imrotate(top, 180);
+    top = flipdim(top,2);
 
     [y, x, ~] = size(bot);
     [bot_x, bot_z] = meshgrid(1:x, 1:y);
