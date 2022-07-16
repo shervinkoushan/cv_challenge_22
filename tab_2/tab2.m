@@ -1,4 +1,4 @@
-function ShowImageInTab2(file_path)
+function tab2(file_path)
 
     %% Global variables
     global vanishing_point;
@@ -18,10 +18,8 @@ function ShowImageInTab2(file_path)
     %   Load the image
     I = imread(file_path);
 
-
     delete(hImageAxes); % Delete the previous image
     delete(saveButton); % Delete the save button
-    
 
     %   Set the axes and display the image
     ImgOffset = 40;
@@ -153,7 +151,7 @@ function save(~, ~, file_path)
     % is selected, we can go to tab 3
     global can_go_to_tab3;
     can_go_to_tab3 = true;
-    ShowImageInTab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+    tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 end
 
 function update_polygons()

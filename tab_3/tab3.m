@@ -1,4 +1,4 @@
-function ShowImageInTab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 
     %   Get TabHandles from guidata and set some varables
     TabHandles = guidata(gcf);
