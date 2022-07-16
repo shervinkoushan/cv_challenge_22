@@ -19,7 +19,7 @@ function OpenImageCallback(~, ~)
     'Select an image file', StartPicDirectory);
 
     if PicNameWithTag == 0,
-        %   If User canceles then display error message
+        %   If User cancels then display error message
         errordlg('You should select an Image File');
         return
     end
@@ -30,6 +30,9 @@ function OpenImageCallback(~, ~)
     %   Build path to file
     PicFilePath = strcat(PicDirectory, PicNameWithTag);
 
+    % Now that an image is selected, we can go to tab 2
+    % We cant move to tab 3 yet though
+    enable_tab2_disable_tab3;
     ShowImageInTab2(PicFilePath);
 
 end

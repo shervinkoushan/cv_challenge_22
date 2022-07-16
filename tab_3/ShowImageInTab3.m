@@ -11,17 +11,9 @@ function ShowImageInTab3(file_path, back_rec, top_rec, bottom_rec, left_rec, rig
     %   Load the image
     I = imread(file_path);
 
-    % Get handle of default panel content
-    h1 = TabHandles{size(TabHandles, 1), 1};
+    delete(hImageAxes); % Delete the previous image
 
-    %   Delete the previous panel content
-    if ishandle(h1)
-        delete(h1); % Delete the default content
-    else
-        delete(hImageAxes); % Delete the previous image
-    end
-
-    %   Make Image Tab active
+    %   Make this tab active
     TabSelectCallback(0, 0, 3);
 
     %   Set the axes and display the image
