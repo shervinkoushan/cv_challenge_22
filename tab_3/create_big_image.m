@@ -1,4 +1,4 @@
-function [bigim, back_b, top_b, bot_b, left_b, right_b] = createBigim(back, top, bot, left, right, im)
+function [bigim, back_b, top_b, bot_b, left_b, right_b] = create_big_image(back, top, bot, left, right, im)
 %This function takes the points of the 5 rectangles and creates a big image
 %where the cooridnates for the rectangles no longer has negative values. 
 %The image will be placed in the new bag image and the end result gives an

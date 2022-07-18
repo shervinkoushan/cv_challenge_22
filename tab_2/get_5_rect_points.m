@@ -1,4 +1,4 @@
-function [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get5RectPoints(vanishing_point, inner_rectangle, image_size)
+function [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get_5_rect_points(vanishing_point, inner_rectangle, image_size)
 
     %% Use Function outer_rectangular.m to calculate the outer rectangular
     %Refer to Report Tour into the picture: Figure 4 c, outer rectangular are
@@ -6,10 +6,10 @@ function [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get5RectPoint
     or = outer_rectangle(vanishing_point, inner_rectangle, image_size);
 
     %% Get the depth of the 5 planes
-    [d] = getDistanceRatio(vanishing_point, inner_rectangle, image_size);
+    [d] = get_distance_ratio(vanishing_point, inner_rectangle, image_size);
 
     %% Call function create5rect.m which gives 5 arrays for the five rectangulares
     %Top, bottom, left, right and back
-    [back_rec, top_rec, bottom_rec, left_rec, right_rec] = create5rect(image_size, vanishing_point, inner_rectangle, or);
+    [back_rec, top_rec, bottom_rec, left_rec, right_rec] = create_5_rect(image_size, vanishing_point, inner_rectangle, or);
 
 end

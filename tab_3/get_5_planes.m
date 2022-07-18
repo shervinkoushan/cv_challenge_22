@@ -1,8 +1,8 @@
-function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(image, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get_5_planes(image, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)    
     %The function creates from an image and given points 5 planes, they are
     %defined by the points.
     %The image and points have to have the format of the extended image
-    %created by the createBigim function.
+    %created by the create_big_image function.
 
     % Convert the image to double.
     image = im2double(image);

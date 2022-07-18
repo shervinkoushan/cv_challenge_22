@@ -1,4 +1,4 @@
-function [d] = getDistanceRatio(V, inn_rect, im_size)
+function [d] = get_distance_ratio(V, inn_rect, im_size)
 
     % Define a relative focal length
     f = 1;

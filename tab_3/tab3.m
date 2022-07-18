@@ -21,10 +21,10 @@ function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
         'Position', [ImgOffset ImgOffset ...
             panel_width - 2 * ImgOffset panel_height - 2 * ImgOffset]);
     hold on;
-    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, d);
+    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image_3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, d);
 
     % Create flat dice
-    createDice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
+    create_dice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
 
     % Use the keyboard buttons to roate and zoom
     set(tab_handles{num_tabs + 1, 1}, 'WindowKeyPressFcn', @keyPressCallback);
