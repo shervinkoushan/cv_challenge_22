@@ -70,7 +70,11 @@ function keyPressCallback(~, eventdata)
     dolly_stepx = 0.05;
     dolly_stepy = 0.05;
     dolly_stepz = 0.05;
+    va_step = 1; % view angle step
     key = eventdata.Key;
+
+    curr_view_angle = camva;
+
 
     switch key
         case 'd'
@@ -93,7 +97,15 @@ function keyPressCallback(~, eventdata)
             camdolly(0, dolly_stepy, 0);
         case 'downarrow'
             camdolly(0, -dolly_stepy, 0);
-    end
+        case 'y'
+            if(curr_view_angle > 15)
+                camva(curr_view_angle - va_step);
+            end
+        case 'x'
+            if(curr_view_angle < 90)
+                camva(curr_view_angle + va_step);
+            end    
+        end
 
     hide_planes_if_in_background
 end
