@@ -13,10 +13,10 @@ function tab1
         'FontWeight', 'bold', 'FontSize', 16);
     
     % Example image
-    scale=1.2;
+    scale=0.6;
     [im, ~, alpha] =imread("lib/example.png");
     ax = axes('Parent', tab_handles{1, 1}, 'Units', 'pixels', ...
-    'Position', [round(panel_width/4)-100 250 round(683*scale) round(131*scale)]);
+    'Position', [round(panel_width/4)-100 150 round(1280*scale) round(720*scale)]);
     image(im, 'AlphaData', alpha, 'Parent', ax);
     ax.Visible = 'off';
     
