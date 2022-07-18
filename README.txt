@@ -1,1 +1,0 @@
-# cv_challenge_22
