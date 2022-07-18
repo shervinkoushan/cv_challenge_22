@@ -16,10 +16,10 @@ function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
     img = imread(file_path);
 
     %  Set the axes and display the image
-    ImgOffset = 40;
+    image_offset = 40;
     image_axes = axes('Parent', tab_handles{3, 1}, 'Units', 'pixels', ...
-        'Position', [ImgOffset ImgOffset ...
-            panel_width - 2 * ImgOffset panel_height - 2 * ImgOffset]);
+        'Position', [image_offset image_offset ...
+            panel_width - 2 * image_offset panel_height - 2 * image_offset]);
     hold on;
     [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image_3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, d);
 
