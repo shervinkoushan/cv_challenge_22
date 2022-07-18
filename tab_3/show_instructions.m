@@ -2,9 +2,9 @@ function show_instructions(~, ~)
 
     % The dialog
     dialog_pos_x = 500;
-    dialog_pos_y = 200;
+    dialog_pos_y = 150;
     dialog_width = 500;
-    dialog_height = 450;
+    dialog_height = 525;
 
     dialog_handle = dialog('Position', [dialog_pos_x dialog_pos_y dialog_width dialog_height], 'Name', 'Instructions');
 
@@ -18,12 +18,14 @@ function show_instructions(~, ~)
     btn_left = 40;
     btn_middle = 75;
     btn_right = 110;
-    display_key('w', btn_middle, 300, dialog_handle);
-    display_key('a', btn_left, 270, dialog_handle);
-    display_key('s', btn_middle, 270, dialog_handle);
-    display_key('d', btn_right, 270, dialog_handle);
-    display_key('q', btn_left, 200, dialog_handle);
-    display_key('e', btn_right, 200, dialog_handle);
+    display_key('w', btn_middle, 375, dialog_handle);
+    display_key('a', btn_left, 345, dialog_handle);
+    display_key('s', btn_middle, 345, dialog_handle);
+    display_key('d', btn_right, 345, dialog_handle);
+    display_key('q', btn_left, 275, dialog_handle);
+    display_key('e', btn_right, 275, dialog_handle);
+    display_key('y', btn_left, 200, dialog_handle);
+    display_key('x', btn_right, 200, dialog_handle);
     display_key('left', btn_left, 100, dialog_handle);
     display_key('up', btn_middle, 130, dialog_handle);
     display_key('right', btn_right, 100, dialog_handle);
@@ -33,11 +35,13 @@ function show_instructions(~, ~)
     instruction_wasd1 = "Use W and S to rotate vertically,";
     instruction_wasd2 = "A and D to rotate horizontally";
     instruction_qe = "Use Q and E to zoom in and out";
+    instruction_yx = "Use Y and X to change the viewing angle";
     instruction_arrows = "Use the arrows to pan in the image";
 
-    display_info_text(instruction_wasd1, dialog_handle, 275);
-    display_info_text(instruction_wasd2, dialog_handle, 255);
-    display_info_text(instruction_qe, dialog_handle, 180);
+    display_info_text(instruction_wasd1, dialog_handle, 350);
+    display_info_text(instruction_wasd2, dialog_handle, 330);
+    display_info_text(instruction_qe, dialog_handle, 255);
+    display_info_text(instruction_yx, dialog_handle, 180);
     display_info_text(instruction_arrows, dialog_handle, 95);
 
     % Close button
@@ -66,7 +70,7 @@ end
 
 function display_info_text(text, handle, pos_y)
     uicontrol('Parent', handle, 'Style', 'text', ...
-        'Position', [200 pos_y 200 40], ...
+        'Position', [200 pos_y 250 40], ...
         'String', text, 'HorizontalAlignment', 'left', ...
         'FontName', 'arial', 'FontSize', 9);
 end
