@@ -13,7 +13,7 @@ function open_image(~, ~)
     'Select an image', start_directory);
 
     if name == 0
-        %   If user cancels then return
+        % If user cancels then return
         return
     end
 

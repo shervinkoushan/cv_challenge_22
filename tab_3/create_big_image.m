@@ -1,11 +1,10 @@
 function [big_image, back_b, top_b, bot_b, left_b, right_b] = create_big_image(back, top, bot, left, right, im)
-%This function takes the points of the 5 rectangles and creates a big image
-%where the cooridnates for the rectangles no longer has negative values. 
-%The image will be placed in the new bag image and the end result gives an
-%image with a black border and all the coordinate points will be positive
-%values.
+    % This function takes the points of the 5 rectangles and creates a big image
+    % where the cooridnates for the rectangles no longer has negative values.
+    % The image will be placed in the new bag image and the end result gives an
+    % image with a black border and all the coordinate points will be positive values.
 
-%% Create the big image and place the original image inside it
+    %% Create the big image and place the original image inside it
 
     % Find the maximun and minimum values for the rectangles for the y-axis
     min_y_val = [top(2, :), left(2, :), right(2, :)];
@@ -13,7 +12,7 @@ function [big_image, back_b, top_b, bot_b, left_b, right_b] = create_big_image(b
 
     %Find the image size
     [y_max, x_max, depth] = size(im);
-    
+
     %The values in y-direction of how much the rectangles are outside the original image.
     neg_y_marg = -min(min_y_val);
     pos_y_marg = max(max_y_val) - y_max;
@@ -32,7 +31,7 @@ function [big_image, back_b, top_b, bot_b, left_b, right_b] = create_big_image(b
     %Place the original image at the correct coordinates
     big_image(neg_y_marg + 1:neg_y_marg + y_max, neg_x_marg + 1:x_max + neg_x_marg, :) = im2double(im);
 
-%% Move the rectangle points to the correct location in the new big im.
+    %% Move the rectangle points to the correct location in the new big im.
     back_b = back;
     top_b = top;
     bot_b = bot;

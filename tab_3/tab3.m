@@ -1,21 +1,21 @@
 function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
 
-    %   Get TabHandles from guidata and set some varables
+    % Extract information about the panel size
     tab_handles = guidata(gcf);
     num_tabs = size(tab_handles, 1) - 2;
     panel_width = tab_handles{num_tabs + 1, 2};
     panel_height = tab_handles{num_tabs + 1, 3};
 
     persistent image_axes;
-    delete(image_axes); % Delete the previous contents
+    delete(image_axes); % Delete the previous content
 
     %  Make this tab active
     tab_selected(0, 0, 3);
 
-    %   Load the image
+    %  Load the image
     img = imread(file_path);
 
-    %  Set the axes and display the image
+    % Set the axes and display the image
     image_offset = 40;
     image_axes = axes('Parent', tab_handles{3, 1}, 'Units', 'pixels', ...
         'Position', [image_offset image_offset ...
