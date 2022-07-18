@@ -1,25 +1,25 @@
-function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Planes(image, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
-    %The function creates from an image and given points 5 planes, they are
-    %defined by the points.
-    %The image and points have to have the format of the extended image
-    %created by the createBigim function.
+function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get_5_planes(image, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+    % The function creates from an image and given points 5 planes, they are
+    % defined by the points.
+    % The image and points have to have the format of the extended image
+    % created by the create_big_image function.
 
     % Convert the image to double.
     image = im2double(image);
 
     %% Create background plane
-    backgroundWidth = back_rec(1, 2) - back_rec(1, 1) + 1;
-    backgroundHeight = back_rec(2, 4) - back_rec(2, 1) + 1;
+    background_width = back_rec(1, 2) - back_rec(1, 1) + 1;
+    background_height = back_rec(2, 4) - back_rec(2, 1) + 1;
 
     % Crop the image
-    back_plane = imcrop(image, [back_rec(1, 1) back_rec(2, 1) backgroundWidth backgroundHeight]); % [xmin ymin width height]
+    back_plane = imcrop(image, [back_rec(1, 1) back_rec(2, 1) background_width background_height]); % [xmin ymin width height]
 
     %% Create top plane
     % Define depth for image plane
-    desiredImageDepth = round(backgroundHeight * mean(d), 0); % For testing get a squared image
-    
+    desired_image_depth = round(background_height * mean(d), 0); % For testing get a squared image
+
     % Define fixed points
-    fixed_points = [0, 0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+    fixed_points = [0, 0; background_width, 0; background_width, desired_image_depth; 0, desired_image_depth];
 
     % Transpose poinst
     top_rec = top_rec';
@@ -42,18 +42,18 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
     [image_top, BA_top] = imwarp(cropped_top_plane, RA, transform_top);
 
     % Resize warped image
-    image_top = imresize(image_top, [desiredImageDepth, size(image_top, 2)]);
-    
+    image_top = imresize(image_top, [desired_image_depth, size(image_top, 2)]);
+
     % Crop the black part from plane after transformation
-    crop_settings_top = [round(abs(BA_top.XWorldLimits(1))), round(abs(BA_top.YWorldLimits(1))), backgroundWidth, desiredImageDepth];
+    crop_settings_top = [round(abs(BA_top.XWorldLimits(1))), round(abs(BA_top.YWorldLimits(1))), background_width, desired_image_depth];
     top_plane = imcrop(image_top, crop_settings_top);
 
     %% Create bottom plane
     % Define depth for image plane
-    desiredImageDepth = round(backgroundHeight * mean(d), 0);
+    desired_image_depth = round(background_height * mean(d), 0);
 
     % Define fixed points
-    fixed_points = [0, 0; backgroundWidth, 0; backgroundWidth, desiredImageDepth; 0, desiredImageDepth];
+    fixed_points = [0, 0; background_width, 0; background_width, desired_image_depth; 0, desired_image_depth];
 
     % Transpose poinst
     bottom_rec = bottom_rec';
@@ -76,18 +76,18 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
     [image_bottom, BA_bottom] = imwarp(cropped_bottom_plane, RA, transform_bottom);
 
     % Resize warped image
-    image_bottom = imresize(image_bottom, [desiredImageDepth, size(image_bottom, 2)]);
-    
+    image_bottom = imresize(image_bottom, [desired_image_depth, size(image_bottom, 2)]);
+
     % Crop the black part from plane after transformation
-    crop_settings_bottom = [round(abs(BA_bottom.XWorldLimits(1))), round(abs(BA_bottom.YWorldLimits(1)) - 1), backgroundWidth, desiredImageDepth];
+    crop_settings_bottom = [round(abs(BA_bottom.XWorldLimits(1))), round(abs(BA_bottom.YWorldLimits(1)) - 1), background_width, desired_image_depth];
     bottom_plane = imcrop(image_bottom, crop_settings_bottom);
 
     %% Create left plane
     % Define depth for image plane
-    desiredImageDepth = round(backgroundHeight * mean(d), 0);
+    desired_image_depth = round(background_height * mean(d), 0);
 
     % Define fixed points
-    fixed_points = [0, 0; desiredImageDepth, 0; desiredImageDepth, desiredImageDepth; 0, desiredImageDepth];
+    fixed_points = [0, 0; desired_image_depth, 0; desired_image_depth, desired_image_depth; 0, desired_image_depth];
 
     % Transpose poinst
     left_rec = left_rec';
@@ -106,33 +106,32 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
 
     % Get reference points from cropped plane
     RA = imref2d(size(cropped_left_plane)); % Reference data from image
-    
+
     % Warp image
     [image_left, BA_left] = imwarp(cropped_left_plane, RA, transform_left);
 
+    % Resize the transformed image
+    image_left = imresize(image_left, [size(image_left, 1), desired_image_depth]);
 
-    % Resize the transformed image 
-    image_left = imresize(image_left, [size(image_left, 1), desiredImageDepth]);
-    
     % Crop the black part from plane after transformation
-    crop_settings_left = [round(abs(BA_left.XWorldLimits(1))), round(abs(BA_left.YWorldLimits(1))), desiredImageDepth, desiredImageDepth];
+    crop_settings_left = [round(abs(BA_left.XWorldLimits(1))), round(abs(BA_left.YWorldLimits(1))), desired_image_depth, desired_image_depth];
     left_plane = imcrop(image_left, crop_settings_left);
-    
+
     % Resize cropped image
-    left_plane = imresize(left_plane, [backgroundHeight desiredImageDepth]);
+    left_plane = imresize(left_plane, [background_height desired_image_depth]);
 
     %% Create right plane
     % Define depth for image plane
-    desiredImageDepth = round(backgroundHeight * mean(d), 0);
+    desired_image_depth = round(background_height * mean(d), 0);
 
     % Define fixed points
-    fixed_points = [0, 0; desiredImageDepth, 0; desiredImageDepth, desiredImageDepth; 0, desiredImageDepth];
+    fixed_points = [0, 0; desired_image_depth, 0; desired_image_depth, desired_image_depth; 0, desired_image_depth];
 
     % Transpose poinst
     right_rec = right_rec';
 
     % Crop the plane part from image
-    cropped_recht_plane = imcrop(image, [right_rec(1, 1), right_rec(2, 2), (right_rec(2, 1) - right_rec(1, 1)), (right_rec(3, 2) - right_rec(2, 2))]);
+    cropped_right_plane = imcrop(image, [right_rec(1, 1), right_rec(2, 2), (right_rec(2, 1) - right_rec(1, 1)), (right_rec(3, 2) - right_rec(2, 2))]);
 
     % Get points in cropped image
     new_right_rec = right_rec;
@@ -143,19 +142,19 @@ function [back_plane, top_plane, bottom_plane, left_plane, right_plane] = get5Pl
     transform_right = fitgeotrans(new_right_rec, fixed_points, 'projective');
 
     % Get reference points from cropped plane
-    RA = imref2d(size(cropped_recht_plane)); % Reference data from image
-    
-    % Warp image
-    [image_right, BA_right] = imwarp(cropped_recht_plane, RA, transform_right);
+    RA = imref2d(size(cropped_right_plane)); % Reference data from image
 
-    % Resize the transformed image 
-    image_right = imresize(image_right, [size(image_right, 1), desiredImageDepth]);
+    % Warp image
+    [image_right, BA_right] = imwarp(cropped_right_plane, RA, transform_right);
+
+    % Resize the transformed image
+    image_right = imresize(image_right, [size(image_right, 1), desired_image_depth]);
 
     % Crop the black part from plane after transformation
-    crop_settings_right = [round(abs(BA_right.XWorldLimits(1))), round(abs(BA_right.YWorldLimits(1))), desiredImageDepth, desiredImageDepth];
+    crop_settings_right = [round(abs(BA_right.XWorldLimits(1))), round(abs(BA_right.YWorldLimits(1))), desired_image_depth, desired_image_depth];
     right_plane = imcrop(image_right, crop_settings_right);
-    
-    % Resize the cropped image 
-    right_plane = imresize(right_plane, [backgroundHeight desiredImageDepth]);
+
+    % Resize the cropped image
+    right_plane = imresize(right_plane, [background_height desired_image_depth]);
 
 end
