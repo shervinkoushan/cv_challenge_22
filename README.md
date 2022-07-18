@@ -1,4 +1,10 @@
-# Goal
+# A Tour Into The Picture
+
+A project for the course EI70110 Computer Vision offered during SS 2022 at the Technical Univerity of Munich.
+
+![example](https://user-images.githubusercontent.com/59822141/179567454-7e4e1d34-80fa-4ca2-8215-228acf929c6a.png)
+
+## Goal
 
 Create different views of a scene from a single image.
 
