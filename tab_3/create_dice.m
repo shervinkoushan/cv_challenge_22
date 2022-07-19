@@ -97,7 +97,7 @@ function [new_img] = createDice(back, top, bot, left, right)
 
     axis equal; % make X,Y,Z dimentions be equal
     axis vis3d; % freeze the scale for better rotations
-    axis off; % turn off the stupid tick marks
+    axis off; % turn off the tick marks
     camproj('perspective'); % make it a perspective projection
 
     % set camera position
