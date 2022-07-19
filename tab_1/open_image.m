@@ -1,4 +1,5 @@
-%%   Open Image File Callback
+%% Select an image from the file system, send the path to tab 2
+
 function open_image(~, ~)
 
     persistent start_directory;

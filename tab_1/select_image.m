@@ -1,7 +1,8 @@
-%%  Select Image Callback
+%% Opens a dialog that shows the 6 predefined images, then opens tab 2 with the path to the selected image as input
+
 function select_image(~, ~)
 
-    % Dialog that shows the 6 predefined images
+    % Dialog dimensions
 
     dialog_pos_x = 500;
     dialog_pos_y = 200;

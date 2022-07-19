@@ -1,3 +1,5 @@
+%% Opens a dialog which shows the user how to move in the 3D image
+
 function show_instructions(~, ~)
 
     % The dialog
