@@ -101,24 +101,6 @@ function [new_img] = create_dice(back, top, bot, left, right)
     axis off; % turn off the tick marks
     camproj('perspective'); % make it a perspective projection
 
-    % set camera position
-    camx = x_b / 2;
-    camy = y_b / 2;
-    camz = 4 * y_b;
-
-    % set camera target
-    tarx = x_b / 2;
-    tary = y_b / 2;
-    tarz = 0;
-
-    % set camera on ground
-    camup([0, 1, 0]);
-
-    % Set view angle
-    camva(30)
-
-    campos([camx camy camz]);
-    camtarget([tarx tary tarz]);
-    camroll(180);
+    reset_camera()
 
 end
