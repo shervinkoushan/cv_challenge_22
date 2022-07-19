@@ -35,7 +35,7 @@ function show_instructions(~, ~)
     instruction_wasd1 = "Use W and S to rotate vertically,";
     instruction_wasd2 = "A and D to rotate horizontally";
     instruction_qe = "Use Q and E to zoom in and out";
-    instruction_yx = "Use Y and X to change the viewing angle";
+    instruction_yx = "Use Y and X to change the view angle";
     instruction_arrows = "Use the arrows to pan in the image";
 
     display_info_text(instruction_wasd1, dialog_handle, 350);

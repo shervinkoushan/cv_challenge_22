@@ -103,7 +103,7 @@ function [new_img] = createDice(back, top, bot, left, right)
     % set camera position
     camx = x_b / 2;
     camy = y_b / 2;
-    camz = 12 * y_b;
+    camz = 4 * y_b;
 
     % set camera target
     tarx = x_b / 2;
@@ -112,6 +112,9 @@ function [new_img] = createDice(back, top, bot, left, right)
 
     % set camera on ground
     camup([0, 1, 0]);
+    
+    % Set view angle
+    camva(30)
 
     campos([camx camy camz]);
     camtarget([tarx tary tarz]);
