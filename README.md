@@ -32,6 +32,9 @@ similar triangles method from [2]. The depth of the images is also estimated wit
 Then the planes are cropped and the transformation is made. As the last step, the planes are put 
 together into a 3D box where the user can move the camera with the keyboard. 
 
+## Code
+
+The GUI is modularized into 3 tabs. The backend functionality dealing with each tab is put in the corresponding folder. Functions which are used more than one place is found in the `helper_functions` folder. The GUI consists of one figure with three ui-panels attached, one for each tab. The logic is based on callbacks. For example, when the user moves the vanishing point, the corners of the five planes are recalculated.
 
 ## How to use the program
 
