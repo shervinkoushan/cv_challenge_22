@@ -39,9 +39,16 @@ function tab2(file_path)
     %% Background rectangle
     inner_rectangle = drawrectangle('StripeColor', 'y', 'Parent', image_axes);
 
+    % If we come back to this tab without selecting a rectangle, the
+    % previous tab2 function would still be running. We therefore ensure
+    % that inner_rectangle is a valid object before continuing
+    if ~isvalid(inner_rectangle)
+        return
+    end
+
     rect_pos = inner_rectangle.Position;
 
-    ensure_rect_non_zero_area(inner_rectangle);
+    ensure_rect_non_zero_area();
     inner_rectangle.Label = 'Inner rectangle';
     addlistener(inner_rectangle, 'ROIMoved', @rectangle_moved);
     hold on
@@ -50,7 +57,15 @@ function tab2(file_path)
     % Update the text to tell the user what to do
     set(info_text, 'string', "Select the vanishing point");
     vanishing_point = drawpoint('Color', 'r', 'DrawingArea', smaller_rect(rect_pos));
+
+    % Same as for the inner rectangle, we stop the function if the object
+    % has been deleted
+    if ~isvalid(vanishing_point)
+        return
+    end
+
     vp_pos = vanishing_point.Position;
+
     update_polygons(rect_pos, vp_pos, image_size);
     vanishing_point.Label = 'Vanishing point';
     addlistener(vanishing_point, 'ROIMoved', @vp_moved);
@@ -64,13 +79,14 @@ function tab2(file_path)
         'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
         'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
 
+    %% Callback for when inner rectangle is moved
     function rectangle_moved(inner_rectangle, evt)
         % User selection changed, need to save first to be able to go tab 3
         toggle_tab(3, false);
 
         % Set inner rectangle position
         rect_pos = evt.CurrentPosition;
-        ensure_rect_non_zero_area(inner_rectangle);
+        ensure_rect_non_zero_area();
 
         % The vanishing point must stay inside the inner rectangle
         set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
@@ -85,7 +101,9 @@ function tab2(file_path)
         update_polygons(rect_pos, vp_pos, image_size);
     end
 
-    function ensure_rect_non_zero_area(inner_rectangle)
+    % Make sure the rectangle is decently large. Mainly a safe-guard in
+    % case the user just draws a dot as the rectangle
+    function ensure_rect_non_zero_area()
         limit = 30;
 
         if rect_pos(3) < limit
@@ -99,6 +117,7 @@ function tab2(file_path)
         set(inner_rectangle, 'Position', rect_pos);
     end
 
+    %% Callback for when vanishing point is moved
     function vp_moved(~, evt)
         % User selection changed, need to save first to be able to go tab 3
         toggle_tab(3, false);
