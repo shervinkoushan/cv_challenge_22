@@ -1,6 +1,6 @@
 function [big_image, back_b, top_b, bot_b, left_b, right_b] = create_big_image(back, top, bot, left, right, im)
     % This function takes the points of the 5 rectangles and creates a big image
-    % where the cooridnates for the rectangles no longer has negative values.
+    % where the coordinates for the rectangles no longer have negative values.
     % The image will be placed in the new bag image and the end result gives an
     % image with a black border and all the coordinate points will be positive values.
 

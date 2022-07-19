@@ -1,4 +1,4 @@
-function [new_img] = createDice(back, top, bot, left, right)
+function [new_img] = create_dice(back, top, bot, left, right)
     %This function aims to create the dice for all the 5 planes created from
     %get5Planes. This is done by plotting them in a 3D space and placing the
     %cropped image of the rectangle on top. Also a flat image which combines

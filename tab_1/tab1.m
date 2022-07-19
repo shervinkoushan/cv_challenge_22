@@ -1,3 +1,5 @@
+%% The user either selects one of the predefined images, or uploads one from the file-system
+
 function tab1
     tab_handles = guidata(gcf);
     num_tabs = size(tab_handles, 1) - 2;

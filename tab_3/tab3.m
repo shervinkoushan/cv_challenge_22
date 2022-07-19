@@ -1,4 +1,6 @@
-function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+%% The 3D box is shown to the user and he/she can move around
+
+function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, depth)
 
     % Extract information about the panel size
     tab_handles = guidata(gcf);
@@ -21,12 +23,12 @@ function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
         'Position', [image_offset image_offset ...
             panel_width - 2 * image_offset panel_height - 2 * image_offset]);
     hold on;
-    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image_3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, d);
+    [back_plane, top_plane, bottom_plane, left_plane, right_plane] = image_3D(back_rec, top_rec, bottom_rec, left_rec, right_rec, img, depth);
 
     % Create flat dice
     create_dice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
 
-    % Use the keyboard buttons to roate and zoom
+    % Use the keyboard buttons to rotate and zoom
     set(tab_handles{num_tabs + 1, 1}, 'WindowKeyPressFcn', @keyPressCallback);
 
     %% Instructions button
@@ -113,7 +115,7 @@ end
 function hide_planes_if_in_background
     % This function ensures that we can still see inside the 3d dice,
     % i.e. if we move around on one side that plane will be hidden so that
-    % we can see whats behind
+    % we can see what is behind
 
     global x_b;
     global y_b;

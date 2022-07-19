@@ -1,3 +1,5 @@
+%% The user selects the inner rectangle, the vanishing point and saves when he/she is satisfied
+
 function tab2(file_path)
 
     % Global variables
@@ -138,11 +140,11 @@ function save(~, ~, file_path)
     global bottom_rec;
     global left_rec;
     global right_rec;
-    global d;
+    global depth;
 
     % Now that the inner rectangle and vanishing point is selected, we can go to tab 3
     toggle_tab(3, true);
-    tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, d)
+    tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, depth)
 end
 
 function update_polygons()
@@ -166,13 +168,13 @@ function update_polygons()
     global bottom_rec;
     global left_rec;
     global right_rec;
-    global d;
+    global depth;
 
     [inner_rect_x, inner_rect_y] = x_y_from_rect_pos(rect_pos);
     vanishing_point = round(vp_pos);
     inner_rect = round([inner_rect_x; inner_rect_y]);
     im_size = round(image_size);
-    [back_rec, top_rec, bottom_rec, left_rec, right_rec, d] = get_5_rect_points(vanishing_point, inner_rect, im_size);
+    [back_rec, top_rec, bottom_rec, left_rec, right_rec, depth] = get_5_rect_points(vanishing_point, inner_rect, im_size);
 
     % Plot the rectangles
     top_poly = plot_polygon(top_rec, 'yellow');
