@@ -1,14 +1,7 @@
 %% The user selects the inner rectangle, the vanishing point and saves when he/she is satisfied
 
 function tab2(file_path)
-
-    % Global variables
-    global vanishing_point;
-    global rect_pos;
-    global vp_pos;
-    global image_size;
-
-    %   Get TabHandles from guidata and set some varables
+    % Get panel dimensions
     tab_handles = guidata(gcf);
     num_tabs = size(tab_handles, 1) - 2;
     panel_width = tab_handles{num_tabs + 1, 2};
@@ -16,9 +9,9 @@ function tab2(file_path)
 
     % Delete previous content
     persistent image_axes
-    persistent saveButton
+    persistent save_button
     delete(image_axes); % Delete the previous image
-    delete(saveButton); % Delete the save button
+    delete(save_button); % Delete the save button
 
     % Load the image
     img = imread(file_path);
@@ -44,8 +37,10 @@ function tab2(file_path)
         'FontWeight', 'bold', 'FontSize', 11);
 
     %% Background rectangle
-    inner_rectangle = drawrectangle('StripeColor', 'y');
+    inner_rectangle = drawrectangle('StripeColor', 'y', 'Parent', image_axes);
+
     rect_pos = inner_rectangle.Position;
+
     ensure_rect_non_zero_area(inner_rectangle);
     inner_rectangle.Label = 'Inner rectangle';
     addlistener(inner_rectangle, 'ROIMoved', @rectangle_moved);
@@ -55,18 +50,63 @@ function tab2(file_path)
     set(info_text, 'string', "Select the vanishing point");
     vanishing_point = drawpoint('Color', 'r', 'DrawingArea', smaller_rect(rect_pos));
     vp_pos = vanishing_point.Position;
-    update_polygons();
+    update_polygons(rect_pos, vp_pos, image_size);
     vanishing_point.Label = 'Vanishing point';
     addlistener(vanishing_point, 'ROIMoved', @vp_moved);
 
     set(info_text, 'string', "Make adjustments and save when you are finished");
 
     %% Save button
-    saveButton = uicontrol('Parent', tab_handles{2, 1}, ...
+    save_button = uicontrol('Parent', tab_handles{2, 1}, ...
     'Units', 'pixels', 'Position', [panel_width - 140 ImgOffset 100 40], ...
         'String', 'Save', 'Callback', {@save, file_path}, ...
         'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
         'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
+
+    function rectangle_moved(inner_rectangle, evt)
+        % User selection changed, need to save first to be able to go tab 3
+        toggle_tab(3, false);
+
+        % Set inner rectangle position
+        rect_pos = evt.CurrentPosition;
+        ensure_rect_non_zero_area(inner_rectangle);
+
+        % The vanishing point must stay inside the inner rectangle
+        set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
+
+        if ~(inROI(inner_rectangle, vp_pos(1), vp_pos(2)))
+            % Move vanishing point to the middle of the rectangle if it
+            % is outside
+            vp_pos = [rect_pos(1) + rect_pos(3) / 2 rect_pos(2) + rect_pos(4) / 2];
+            set(vanishing_point, 'Position', vp_pos);
+        end
+
+        update_polygons(rect_pos, vp_pos, image_size);
+    end
+
+    function ensure_rect_non_zero_area(inner_rectangle)
+        limit = 30;
+
+        if rect_pos(3) < limit
+            rect_pos(3) = limit;
+        end
+
+        if rect_pos(4) < limit
+            rect_pos(4) = limit;
+        end
+
+        set(inner_rectangle, 'Position', rect_pos);
+    end
+
+    function vp_moved(~, evt)
+        % User selection changed, need to save first to be able to go tab 3
+        toggle_tab(3, false);
+
+        % Update vanishing point position
+        vp_pos = evt.CurrentPosition;
+        update_polygons(rect_pos, vp_pos, image_size);
+    end
+
 end
 
 % Decrease rect size by 1 pixel in each direction
@@ -85,55 +125,6 @@ function [x_array, y_array] = x_y_from_rect_pos(position)
     y_array = [y_min y_min y_min + height y_min + height];
 end
 
-function ensure_rect_non_zero_area(inner_rectangle)
-    global rect_pos;
-    limit = 30;
-
-    if rect_pos(3) < limit
-        rect_pos(3) = limit;
-    end
-
-    if rect_pos(4) < limit
-        rect_pos(4) = limit;
-    end
-
-    set(inner_rectangle, 'Position', rect_pos);
-end
-
-function rectangle_moved(inner_rectangle, evt)
-    % User selection changed, need to save first to be able to go tab 3
-    toggle_tab(3, false);
-
-    % Set inner rectangle position
-    global rect_pos;
-    global vp_pos;
-    global vanishing_point;
-    rect_pos = evt.CurrentPosition;
-    ensure_rect_non_zero_area(inner_rectangle);
-
-    % The vanishing point must stay inside the inner rectangle
-    set(vanishing_point, 'DrawingArea', smaller_rect(rect_pos));
-
-    if ~(inROI(inner_rectangle, vp_pos(1), vp_pos(2)))
-        % Move vanishing point to the middle of the rectangle if it
-        % is outside
-        vp_pos = [rect_pos(1) + rect_pos(3) / 2 rect_pos(2) + rect_pos(4) / 2];
-        set(vanishing_point, 'Position', vp_pos);
-    end
-
-    update_polygons();
-end
-
-function vp_moved(~, evt)
-    % User selection changed, need to save first to be able to go tab 3
-    toggle_tab(3, false);
-
-    % Update vanishing point position
-    global vp_pos;
-    vp_pos = evt.CurrentPosition;
-    update_polygons();
-end
-
 function save(~, ~, file_path)
     global back_rec;
     global top_rec;
@@ -147,7 +138,7 @@ function save(~, ~, file_path)
     tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, depth)
 end
 
-function update_polygons()
+function update_polygons(rect_pos, vp_pos, image_size)
     persistent top_poly;
     persistent bottom_poly;
     persistent left_poly;
@@ -158,10 +149,6 @@ function update_polygons()
     delete(bottom_poly);
     delete(left_poly);
     delete(right_poly);
-
-    global rect_pos;
-    global vp_pos;
-    global image_size;
 
     global back_rec;
     global top_rec;
