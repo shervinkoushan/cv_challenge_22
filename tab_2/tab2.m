@@ -37,7 +37,7 @@ function tab2(file_path)
         'FontWeight', 'bold', 'FontSize', 11);
 
     %% Background rectangle
-    inner_rectangle = drawrectangle('StripeColor', 'y', 'Parent', image_axes);
+    inner_rectangle = drawrectangle('StripeColor', 'y');
 
     % If we come back to this tab without selecting a rectangle, the
     % previous tab2 function would still be running. We therefore ensure
