@@ -75,13 +75,14 @@ function [new_img] = create_dice(back, top, bot, left, right)
     right = flipdim(right, 1);
 
     %% Plotting the images on the five planes
+    global back_warp;
     global top_warp;
     global bot_warp;
     global left_warp;
     global right_warp;
     %Taking the coodinates of the plane and fitting the belonging cropped
     %image.
-    warp(back_x, back_y, back_z, back);
+    back_warp = warp(back_x, back_y, back_z, back);
 
     %top
     top_warp = warp(top_x, top_y, top_z, top);
@@ -112,7 +113,7 @@ function [new_img] = create_dice(back, top, bot, left, right)
 
     % set camera on ground
     camup([0, 1, 0]);
-    
+
     % Set view angle
     camva(30)
 

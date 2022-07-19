@@ -77,7 +77,6 @@ function keyPressCallback(~, eventdata)
 
     curr_view_angle = camva;
 
-
     switch key
         case 'd'
             camdolly(-dolly_stepx, 0, 0, 'fixtarget');
@@ -100,14 +99,18 @@ function keyPressCallback(~, eventdata)
         case 'downarrow'
             camdolly(0, -dolly_stepy, 0);
         case 'y'
-            if(curr_view_angle > 15)
+
+            if (curr_view_angle > 15)
                 camva(curr_view_angle - va_step);
             end
+
         case 'x'
-            if(curr_view_angle < 90)
+
+            if (curr_view_angle < 90)
                 camva(curr_view_angle + va_step);
-            end    
-        end
+            end
+
+    end
 
     hide_planes_if_in_background
 end
@@ -119,16 +122,22 @@ function hide_planes_if_in_background
 
     global x_b;
     global y_b;
+    global back_warp;
     global top_warp;
     global bot_warp;
     global left_warp;
     global right_warp;
     cam_p = campos;
 
+    back_visible = 'on';
     top_visible = 'on';
     bot_visible = 'on';
     left_visible = 'on';
     right_visible = 'on';
+
+    if cam_p(3) < 0
+        back_visible = 'off';
+    end
 
     if cam_p(2) < 0
         top_visible = 'off';
@@ -146,6 +155,7 @@ function hide_planes_if_in_background
         right_visible = 'off';
     end
 
+    set(back_warp, 'visible', back_visible)
     set(top_warp, 'visible', top_visible)
     set(bot_warp, 'visible', bot_visible)
     set(left_warp, 'visible', left_visible)
