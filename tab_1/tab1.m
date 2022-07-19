@@ -18,7 +18,7 @@ function tab1
     scale = 0.6;
     [im, ~, alpha] = imread("lib/example.png");
     ax = axes('Parent', tab_handles{1, 1}, 'Units', 'pixels', ...
-        'Position', [round(panel_width / 4) - 100 150 round(1280 * scale) round(720 * scale)]);
+        'Position', [205 150 round(1280 * scale) round(720 * scale)]);
     image(im, 'AlphaData', alpha, 'Parent', ax);
     ax.Visible = 'off';
 
