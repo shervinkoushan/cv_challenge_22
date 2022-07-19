@@ -17,10 +17,10 @@ function tab2(file_path)
     img = imread(file_path);
 
     %   Set the axes and display the image
-    ImgOffset = 40;
+    image_offset = 40;
     image_axes = axes('Parent', tab_handles{2, 1}, 'Units', 'pixels', ...
-        'Position', [ImgOffset ImgOffset ...
-            panel_width - 2 * ImgOffset panel_height - 2 * ImgOffset]);
+        'Position', [image_offset image_offset ...
+            panel_width - 2 * image_offset panel_height - 2 * image_offset]);
     imshow(img);
     hold on
 
@@ -47,6 +47,7 @@ function tab2(file_path)
     hold on
 
     %% Vanishing point
+    % Update the text to tell the user what to do
     set(info_text, 'string', "Select the vanishing point");
     vanishing_point = drawpoint('Color', 'r', 'DrawingArea', smaller_rect(rect_pos));
     vp_pos = vanishing_point.Position;
@@ -58,7 +59,7 @@ function tab2(file_path)
 
     %% Save button
     save_button = uicontrol('Parent', tab_handles{2, 1}, ...
-    'Units', 'pixels', 'Position', [panel_width - 140 ImgOffset 100 40], ...
+    'Units', 'pixels', 'Position', [panel_width - 140 image_offset 100 40], ...
         'String', 'Save', 'Callback', {@save, file_path}, ...
         'Style', 'pushbutton', 'HorizontalAlignment', 'center', ...
         'FontName', 'arial', 'FontWeight', 'bold', 'FontSize', 11);
