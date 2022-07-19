@@ -1,4 +1,4 @@
-function hide_planes_if_in_background
+function toggle_plane_visibility
     % This function ensures that we can still see inside the 3d dice,
     % i.e. if we move around on one side that plane will be hidden so that
     % we can see what is behind

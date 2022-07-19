@@ -29,7 +29,7 @@ function tab3(file_path, back_rec, top_rec, bottom_rec, left_rec, right_rec, dep
     create_dice(back_plane, top_plane, bottom_plane, left_plane, right_plane);
 
     % Use the keyboard buttons to rotate and zoom
-    set(tab_handles{num_tabs + 1, 1}, 'WindowKeyPressFcn', @keyPressCallback);
+    set(tab_handles{num_tabs + 1, 1}, 'WindowKeyPressFcn', @key_pressed);
 
     %% Instructions button
     uicontrol('Parent', tab_handles{3, 1}, ...
@@ -72,7 +72,7 @@ function take_screenshot(~, ~, ax)
 
 end
 
-function keyPressCallback(~, eventdata)
+function key_pressed(~, eventdata)
     % Key pressed -> find out which one and control camera accordingly
 
     % Camera step
@@ -119,12 +119,14 @@ function keyPressCallback(~, eventdata)
 
     end
 
-    hide_planes_if_in_background();
+    % Camera changed, hide or show planes so that we can still see inside
+    % the box
+    toggle_plane_visibility();
 end
 
 function reset(~, ~)
     % Set camera position and angle to initial values
     reset_camera();
     % This will restore any previously hidden planes
-    hide_planes_if_in_background();
+    toggle_plane_visibility();
 end
