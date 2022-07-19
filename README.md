@@ -25,7 +25,7 @@ For this MATLAB 2022a and the Image Processing Toolbox is used, both provided by
 
 ## Details
 
-Using the GUI the user can choose an image and then select the points of the background and the vanishing point. 
+Using the GUI the user can choose an image and then select the inner rectangle and the vanishing point. 
 The program calculates the corners of the five planes and plots them on the original image. The algorithm 
 uses these points to calculate an estimation of projective transformation for each plane based on the 
 similar triangles method from [2]. The depth of the images is also estimated with this method.
