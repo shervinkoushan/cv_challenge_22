@@ -1,4 +1,4 @@
-# A Tour Into The Picture
+# A Tour Into the Picture
 
 A project for the course EI70110 Computer Vision offered during SS 2022 at the Technical Univerity of Munich.
 
@@ -49,8 +49,3 @@ http://graphics.cs.cmu.edu/courses/15-463/2006_fall/www/Papers/TIP.pdf
 
 [2] yli262, tour-into-the-picture
 https://github.com/yli262/tour-into-the-picture
- 
-
-
-
-
